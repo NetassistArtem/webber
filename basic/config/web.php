@@ -60,6 +60,11 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
+                    'pattern' => 'logout',
+                    'route' => 'site/logout',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
                     'pattern' => 'error',
                     'route' => 'site/error',
                     //'defaults' => ['page' => 1, 'tag' => ''],
@@ -70,8 +75,8 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'invoice',
-                    'route' => 'site/invoice',
+                    'pattern' => 'invoices',
+                    'route' => 'site/invoices',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
@@ -107,6 +112,42 @@ $config = [
                 [
                     'pattern' => 'settings/delete-footer',
                     'route' => 'settings/delete-footer',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'services',
+                    'route' => 'site/services',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'services/edit-service',
+                    'route' => 'site/edit-service',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'services/delete-service',
+                    'route' => 'site/delete-service',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
+                [
+                    'pattern' => 'payers',
+                    'route' => 'site/payers',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'payers/edit-payer',
+                    'route' => 'site/edit-payer',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'payers/delete-payer',
+                    'route' => 'site/delete-payer',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'payers/payer',
+                    'route' => 'site/payer',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
             ],

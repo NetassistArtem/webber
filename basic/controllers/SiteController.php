@@ -3,6 +3,12 @@
 namespace app\controllers;
 
 use app\models\Bills;
+use app\models\Payers;
+use app\models\ServiceAddForm;
+use app\models\ServiceEditForm;
+use app\models\PayerAddForm;
+use app\models\PayerEditForm;
+use app\models\Services;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -21,18 +27,54 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','invoice','about','contact'],
+                'only' => [
+                    'logout',
+                    'invoice',
+                    'about',
+                    'contact',
+                    'services',
+                    'delete-service',
+                    'edit-service',
+                    'payers',
+                    'payer',
+                    'delete-payer',
+                    'edit-payer',
+                ],
                 'rules' => [
                     [
                         'controllers' => ['site'],
-                        'actions' => ['logout','invoice','about','contact'],
+                        'actions' => [
+                            'logout',
+                            'invoice',
+                            'about',
+                            'contact',
+                            'services',
+                            'delete-service',
+                            'edit-service',
+                            'payers',
+                            'payer',
+                            'delete-payer',
+                            'edit-payer',
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
 
                     ],
                     [
                         'controllers' => ['site'],
-                        'actions' => ['logout','about','invoice','contact'],
+                        'actions' => [
+                            'logout',
+                            'about',
+                            'invoice',
+                            'contact',
+                            'services',
+                            'delete-service',
+                            'edit-service',
+                            'payers',
+                            'payer',
+                            'delete-payer',
+                            'edit-payer',
+                        ],
                         'allow' => false,
                         'roles' => ['?'],
 
@@ -69,7 +111,7 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionInvoice()
+    public function actionInvoices()
     {
         $billsModel = new Bills();
         $data = $billsModel->getBillsList();
@@ -133,8 +175,65 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionServices()
     {
-        return $this->render('about');
+        $ServiceAddForm = new ServiceAddForm();
+
+        $services_data = Services::getServicesList();
+
+        if ($ServiceAddForm->load(Yii::$app->request->post()) && $ServiceAddForm->addService()) {
+            if (!Yii::$app->request->isPjax) {
+                return $this->redirect(["/services"]);
+            }
+        }
+
+        return $this->render('services',[
+            'ServiceAddForm' => $ServiceAddForm,
+            'services_data' => $services_data,
+        ]);
     }
+
+    public function actionEditService()
+    {
+        $id = Yii::$app->request->get('id');
+        $service = Services::getServiceById($id);
+        $ServiceEditForm = new ServiceEditForm();
+        if ($ServiceEditForm->load(Yii::$app->request->post()) && $ServiceEditForm->editService()) {
+            if (!Yii::$app->request->isPjax) {
+                return $this->redirect(["/services"]);
+            }
+        }
+
+        return $this->render('edit-service',[
+            'ServiceEditForm' => $ServiceEditForm,
+            'service' => $service,
+        ]);
+    }
+
+    public function actionDeleteService()
+    {
+        $id = Yii::$app->request->get('id');
+
+        Services::deleteService($id);
+        $this->redirect(["/services"]);
+    }
+
+    public function actionPayers()
+    {
+        $PayerAddForm = new PayerAddForm();
+
+        $payers_data = Payers::getPayersList();
+
+        if ($PayerAddForm->load(Yii::$app->request->post()) && $PayerAddForm->addPayer()) {
+            if (!Yii::$app->request->isPjax) {
+                return $this->redirect(["/payers"]);
+            }
+        }
+
+        return $this->render('payers',[
+            'PayerAddForm' => $PayerAddForm,
+            'payers_data' => $payers_data,
+        ]);
+    }
+
 }

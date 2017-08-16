@@ -80,7 +80,7 @@ $this->registerJsFile(
                         <tr id="unit_tr_<?= $k+1 ?>" class="collapse" >
                             <td colspan="2">
                                 <a href="/settings/edit-unit?id=<?= $v['id'] ?>" class="btn btn-primary">Редактировать</a>
-                                <a href="/settings/delete-unit?id=<?= $v['id'] ?>" class="btn btn-danger">Удалить</a>
+                                <a href="/settings/delete-unit?id=<?= $v['id'] ?>" onclick="return confirm('Вы уверены что хотите удалить <?= $v['name'] ?>')" class="btn btn-danger">Удалить</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

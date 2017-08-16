@@ -44,16 +44,17 @@ AppAsset::register($this);
 
         'items' => [
 
-            ['label' => 'Счета', 'url' => ['/invoice'], 'active' => (Yii::$app->request->url == "/invoice")],
-            ['label' => 'About', 'url' => ['/site/about'], 'active' => (Yii::$app->request->url == "/in")],
+            ['label' => 'Счета', 'url' => ['/invoices'], 'active' => (Yii::$app->request->url == "/invoices")],
+            ['label' => 'Услуги', 'url' => ['/services'], 'active' => (Yii::$app->request->url == "/services")],
+            ['label' => 'Клиенты', 'url' => ['/payers'], 'active' => (Yii::$app->request->url == "/payers")],
             ['label' => 'Настройки', 'url' => ['/settings'], 'active' => (Yii::$app->request->url == "/settings")],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Login', 'url' => ['/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
+                . Html::beginForm(['/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Выйти (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

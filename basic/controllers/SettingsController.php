@@ -24,18 +24,18 @@ class SettingsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header'],
+                'only' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer'],
                 'rules' => [
                     [
                         'controllers' => ['settings'],
-                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header'],
+                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer'],
                         'allow' => true,
                         'roles' => ['@'],
 
                     ],
                     [
                         'controllers' => ['settings'],
-                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header'],
+                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer'],
                         'allow' => false,
                         'roles' => ['?'],
 
