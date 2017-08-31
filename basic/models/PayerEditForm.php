@@ -1,18 +1,24 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: artem
+ * Date: 15.08.17
+ * Time: 14:27
+ */
 
 namespace app\models;
 
 use yii\base\Model;
 use Yii;
 use app\components\debugger\Debugger;
+use app\models\Units;
 
 
 
-
-class PayerAddForm extends Model
+class PayerEditForm extends Model
 {
     public $name;
+    public $id;
     public $contact_person;
     public $phone;
     public $person_id;
@@ -23,9 +29,6 @@ class PayerAddForm extends Model
     public $email;
     public $contract_id;
     public $contract_date;
-
-
-
 
     public function rules()
     {
@@ -46,11 +49,11 @@ class PayerAddForm extends Model
         ];
     }
 
-    public function addPayer()
+    public function editPayer()
     {
         if ($this->validate()) {
             $data_array = array(
-
+                'id' => Yii::$app->request->post('PayerEditForm')['id'],
                 'name' => $this->name,
                 'contact_person' => $this->contact_person,
                 'phone' => $this->phone,
@@ -63,10 +66,14 @@ class PayerAddForm extends Model
                 'contract_id' => $this->contract_id,
                 'contract_date' => $this->contract_date,
             );
-
-            Payers::insertPayer($data_array);
+          //  Units::getUnitById($this->id);
+           // Debugger::EhoBr(Yii::$app->request->post('UnitEditForm')['id']);
+         //   Debugger::EhoBr($this->name);
+         //   Debugger::testDie();
+            Payers::editPayer($data_array);
             return true;
         }
         return false;
     }
+
 }

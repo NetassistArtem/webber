@@ -114,14 +114,82 @@ a.desc:after {
     outline: none;
 }
 /*****************Custom styles*****************/
-.table thead {
+.table thead.table-service-thead {
    /* background-color: #99bb99;*/
     background-color: #9caf78;
  /*   background-color: #a0a6ad;*/
 }
+
+.table thead.table-service-edit-thead {
+     background-color: #ffa300;
+   /* background-color: #dd2121; */
+    /*   background-color: #a0a6ad;*/
+}
+
+table.table-edit-services tbody {
+    /* background-color: #F5F5F5;
+    background-color: #f9f9f9;*/
+    background-color: #fcfcfc;
+    border-color:#d62020 ;
+}
+table.table-edit-services{
+   /* box-shadow: 0 0 9px #FF9000;*/
+    box-shadow: 0 0 9px #a0a6ad;
+}
+
+.table thead tr th.empty-th {
+    background-color: white;
+}
+th.collapse-th-td {
+    background-color: #36e261;
+}
+
 .margin_bottom{
     margin-bottom: 30px;
 }
 .margin_top{
     margin-top: 30px;
 }
+
+.badge-danger{
+    background-color: #d9534f;
+}
+.badge-danger-custom{
+    background-color: #ff0098;
+}
+.badge-danger-custom-2{
+    background-color: #fc8607;
+}
+.service-hidden{
+    display: none;
+}
+
+#serviceDeleteForm{
+    margin-top: -15px;
+}
+
+#table-result {
+    background-color:#f7fcf8 ;
+    box-shadow: 0 0 9px #cae2c7;
+}
+.saved-services-block{
+    background-color: #f6ffe5;
+    box-shadow: 0 0 9px #cae2c7;
+    margin-left: -3px;
+    margin-right: -3px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+.table-no-border > tbody > tr > td , .table-bordered > tbody > tr.table-no-border > td {
+    border-color: transparent;
+}
+.bill_number{
+    text-align: center;
+}
+.bill_date{
+    text-align: center;
+    font-style: oblique;
+}
+

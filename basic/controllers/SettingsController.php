@@ -95,6 +95,9 @@ class SettingsController extends Controller
     public function actionEditUnit()
     {
         $id = Yii::$app->request->get('id');
+        if(!$id){
+            return  $this->redirect(["/settings"]);
+        }
         $unit = Units::getUnitById($id);
         $UnitEditForm = new UnitEditForm();
         if ($UnitEditForm->load(Yii::$app->request->post()) && $UnitEditForm->editUnit()) {
@@ -112,21 +115,30 @@ class SettingsController extends Controller
     public function actionDeleteUnit()
     {
         $id = Yii::$app->request->get('id');
+        if(!$id){
+            return  $this->redirect(["/settings"]);
+        }
 
         Units::deleteUnit($id);
-        $this->redirect(["/settings"]);
+        return $this->redirect(["/settings"]);
     }
     public function actionDeleteHeader()
     {
         $id = Yii::$app->request->get('id');
+        if(!$id){
+            return  $this->redirect(["/settings"]);
+        }
 
         FooterHeader::deleteFooterHeader($id);
-        $this->redirect(["/settings"]);
+        return  $this->redirect(["/settings"]);
     }
 
     public function actionEditHeader()
     {
         $id = Yii::$app->request->get('id');
+        if(!$id){
+            return  $this->redirect(["/settings"]);
+        }
         $header = FooterHeader::getHeaderFooterById($id);
         $HeaderEditForm = new HeaderEditForm();
         if ($HeaderEditForm->load(Yii::$app->request->post()) && $HeaderEditForm->editHeader()) {
@@ -144,14 +156,20 @@ class SettingsController extends Controller
     public function actionDeleteFooter()
     {
         $id = Yii::$app->request->get('id');
+        if(!$id){
+            return $this->redirect(["/settings"]);
+        }
 
         FooterHeader::deleteFooterHeader($id);
-        $this->redirect(["/settings"]);
+        return $this->redirect(["/settings"]);
     }
 
     public function actionEditFooter()
     {
         $id = Yii::$app->request->get('id');
+        if(!$id){
+            return $this->redirect(["/settings"]);
+        }
         $footer = FooterHeader::getHeaderFooterById($id);
         $FooterEditForm = new FooterEditForm();
         if ($FooterEditForm->load(Yii::$app->request->post()) && $FooterEditForm->editFooter()) {
@@ -165,5 +183,6 @@ class SettingsController extends Controller
             'footer' => $footer,
         ]);
     }
+
 
 }

@@ -11,6 +11,10 @@ use app\assets\AppAsset;
 use app\components\debugger\Debugger;
 
 AppAsset::register($this);
+
+$f_url = Yii::$app->request->url;
+$no_get_url = explode('?',$f_url)[0];
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -44,10 +48,22 @@ AppAsset::register($this);
 
         'items' => [
 
-            ['label' => 'Счета', 'url' => ['/invoices'], 'active' => (Yii::$app->request->url == "/invoices")],
-            ['label' => 'Услуги', 'url' => ['/services'], 'active' => (Yii::$app->request->url == "/services")],
-            ['label' => 'Клиенты', 'url' => ['/payers'], 'active' => (Yii::$app->request->url == "/payers")],
-            ['label' => 'Настройки', 'url' => ['/settings'], 'active' => (Yii::$app->request->url == "/settings")],
+            ['label' => 'Счета', 'url' => ['/bills'], 'active' => ($no_get_url == "/bills")],
+            ['label' => 'Услуги', 'url' => ['/services'], 'active' => (
+                $no_get_url == "/services" ||
+                $no_get_url == "/services/edit-service"
+            )],
+            ['label' => 'Клиенты', 'url' => ['/payers'], 'active' => (
+                $no_get_url == "/payers" ||
+                $no_get_url == "/payers/edit-payer" ||
+                $no_get_url == "/payers/payer"
+            )],
+            ['label' => 'Настройки', 'url' => ['/settings'], 'active' => (
+                $no_get_url == "/settings" ||
+                $no_get_url == "/settings/edit-unit" ||
+                $no_get_url == "/settings/edit-header" ||
+                $no_get_url == "/settings/edit-footer"
+            )],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/login']]
             ) : (

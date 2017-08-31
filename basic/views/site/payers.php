@@ -34,9 +34,9 @@ $this->title = 'Клиенты';
                 ]); ?>
 
 
-                <?= $form_payer_add->field($PayerAddForm, 'name')->label('Имя клиента') ?>
-                <?= $form_payer_add->field($PayerAddForm, 'contact_person')->label('Контактное лицо') ?>
-                <?= $form_payer_add->field($PayerAddForm, 'phone')->label('Телефоны') ?>
+                <?= $form_payer_add->field($PayerAddForm, 'name')->textInput()->label('Имя клиента') ?>
+                <?= $form_payer_add->field($PayerAddForm, 'contact_person')->textInput()->label('Контактное лицо') ?>
+                <?= $form_payer_add->field($PayerAddForm, 'phone')->textInput()->label('Телефоны') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'person_id')->label('ИП №') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'certificat_pdv_id')->label('Свидетельство платильщика НДС №') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'address_ur')->label('Адресс юредический') ?>

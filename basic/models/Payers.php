@@ -32,6 +32,22 @@ class Payers extends  ActiveRecord
 
         return $payers;
     }
+    public static function getPayersFields(array $fields_name)
+    {
+        $fields_string = '';
+        foreach($fields_name as $k=>$v){
+            $fields_string .= '`'.$v.'`, ';
+        }
+        $fields_string_n = trim($fields_string, ', ');
+        if($fields_string_n == ''){
+            $fields_string_n = 'id';
+        }
+
+        $payers_fields = self::find()->select([$fields_string_n])->asArray()->all();
+
+        return $payers_fields;
+
+    }
     public static function insertPayer($data_array)
     {
 
@@ -48,6 +64,7 @@ class Payers extends  ActiveRecord
         $payer->contract_id = $data_array['contract_id'];
         $payer->contract_date = $data_array['contract_date'];
         $payer->save();
+
     }
     public static function getPayerById($id)
     {
@@ -61,6 +78,7 @@ class Payers extends  ActiveRecord
     {
         $payer = Payers::findOne($data_array['id']);
 
+
         $payer->name = $data_array['name'];
         $payer->contact_person = $data_array['contact_person'];
         $payer->phone = $data_array['phone'];
@@ -71,7 +89,7 @@ class Payers extends  ActiveRecord
         $payer->address_post = $data_array['address_post'];
         $payer->email = $data_array['email'];
         $payer->contract_id = $data_array['contract_id'];
-        $payer->contract_data = $data_array['contract_data'];
+        $payer->contract_date = $data_array['contract_date'];
         $payer->save();
     }
 

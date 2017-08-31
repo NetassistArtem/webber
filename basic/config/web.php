@@ -7,8 +7,8 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'homeUrl'=> '/invoice',
-    'defaultRoute' => 'site/invoice',
+    'homeUrl'=> '/bills',
+    'defaultRoute' => 'site/bills',
 
 
 
@@ -147,9 +147,56 @@ $config = [
                 ],
                 [
                     'pattern' => 'payers/payer',
-                    'route' => 'site/payer',
+                    'route' => 'site/payer-view',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+
+                [
+                    'pattern' => 'bills',
+                    'route' => 'site/bills',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/edit-bill',
+                    'route' => 'site/edit-bill',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/delete-bill',
+                    'route' => 'site/delete-bill',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/bill-view',
+                    'route' => 'site/bill-view',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/bill_print',
+                    'route' => 'site/bill-print',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/bill-act-print',
+                    'route' => 'site/bill-act-print',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/add-bill-main',
+                    'route' => 'site/add-bill-main',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/add-bill-second',
+                    'route' => 'site/add-bill-second',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/edit-bill-main',
+                    'route' => 'site/edit-bill-main',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
             ],
         ],
 
