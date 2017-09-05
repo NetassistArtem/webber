@@ -172,7 +172,7 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'bills/bill_print',
+                    'pattern' => 'bills/bill-print',
                     'route' => 'site/bill-print',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],

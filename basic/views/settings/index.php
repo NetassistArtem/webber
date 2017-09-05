@@ -124,10 +124,10 @@ $this->registerJsFile(
                 <?php $form_header_add = ActiveForm::begin([
                     'id' => 'headerAddForm',
                     'options' => ['data-pjax' => false],
-                    'layout' => 'horizontal',
+                 //   'layout' => 'horizontal',
                     'fieldConfig' => [
-                        'template' => "{label}\n<div class=\"col-lg-8 col-md-8 col-sm-8\">{input}</div>\n<div class=\"col-lg-2 col-md-2 col-sm-2\">{error}</div>",
-                        'labelOptions' => ['class' => 'col-lg-2 col-md-2 col-sm-2 control-label'],
+                        'template' => "{label}\n<div class=\"col-lg-12 col-md-12 col-sm-12\">{input}</div>\n<div class=\"col-lg-12 col-md-12 col-sm-12\">{error}</div>",
+                        'labelOptions' => ['class' => 'col-lg-12 col-md-12 col-sm-12 control-label'],
                     ],
 
                 ]); ?>
@@ -213,10 +213,10 @@ $this->registerJsFile(
                 <?php $form_footer_add = ActiveForm::begin([
                     'id' => 'footerAddForm',
                     'options' => ['data-pjax' => false],
-                    'layout' => 'horizontal',
+                  //  'layout' => 'horizontal',
                     'fieldConfig' => [
-                        'template' => "{label}\n<div class=\"col-lg-8 col-md-8 col-sm-8\">{input}</div>\n<div class=\"col-lg-2 col-md-2 col-sm-2\">{error}</div>",
-                        'labelOptions' => ['class' => 'col-lg-2 col-md-2 col-sm-2 control-label'],
+                        'template' => "{label}\n<div class=\"col-lg-12 col-md-12 col-sm-12\">{input}</div>\n<div class=\"col-lg-12 col-md-12 col-sm-12\">{error}</div>",
+                        'labelOptions' => ['class' => 'col-lg-12 col-md-12 col-sm-12 control-label'],
                     ],
 
                 ]); ?>

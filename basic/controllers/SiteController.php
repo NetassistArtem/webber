@@ -15,6 +15,7 @@ use app\models\BillAddSecondForm;
 use app\models\BillEditMainForm;
 use app\models\Services;
 use app\models\Units;
+use app\models\PrintPdf;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -22,6 +23,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+
 
 class SiteController extends Controller
 {
@@ -318,6 +320,7 @@ class SiteController extends Controller
 
     public function actionBills()
     {
+
         Yii::$app->session->remove('bill_id');
         Yii::$app->session->remove('edit');
 
@@ -330,6 +333,7 @@ class SiteController extends Controller
         }
 
         $bills_data = Bills::getBillsList();
+
 
         return $this->render('bills', [
 
@@ -397,26 +401,26 @@ class SiteController extends Controller
             return $this->redirect(["/bills/add-bill-main"]);
         }
         $edit = Yii::$app->session->get('edit');
-      //  Yii::$app->session->remove('edit');
+        //  Yii::$app->session->remove('edit');
         $BillAddSecondForm = new BillAddSecondForm();
         $bill_services = $BillAddSecondForm->getBillServices($bill_id);
 
         if ($BillAddSecondForm->load(Yii::$app->request->post())) {
-           // Debugger::PrintR($_POST);
-           // Debugger::testDie();
-            if(Yii::$app->request->post('edit-service')){
+            // Debugger::PrintR($_POST);
+            // Debugger::testDie();
+            if (Yii::$app->request->post('edit-service')) {
 
-                if($BillAddSecondForm->editBillServices($bill_services,Yii::$app->request->post('BillAddSecondForm')['services_bill_id'])){
-
-                    return $this->redirect(["/bills/add-bill-second"]);
-                }
-            }elseif(Yii::$app->request->post('delete-service')){
-                if($BillAddSecondForm->deleteBillServices($bill_services,Yii::$app->request->post('BillAddSecondForm')['services_bill_id'])){
+                if ($BillAddSecondForm->editBillServices($bill_services, Yii::$app->request->post('BillAddSecondForm')['services_bill_id'])) {
 
                     return $this->redirect(["/bills/add-bill-second"]);
                 }
+            } elseif (Yii::$app->request->post('delete-service')) {
+                if ($BillAddSecondForm->deleteBillServices($bill_services, Yii::$app->request->post('BillAddSecondForm')['services_bill_id'])) {
 
-            }else{
+                    return $this->redirect(["/bills/add-bill-second"]);
+                }
+
+            } else {
                 if ($BillAddSecondForm->addService($bill_id)) {
                     // Debugger::PrintR($_POST);
                     // Debugger::testDie();
@@ -425,7 +429,7 @@ class SiteController extends Controller
 
                         if (!Yii::$app->request->isPjax) {
 
-                            return $this->redirect(["/bills"]);
+                            return $this->redirect(["/bill-view?bill_id=$bill_id"]);
                         }
                     } elseif (Yii::$app->request->post('more-service')) {
 
@@ -492,13 +496,15 @@ class SiteController extends Controller
 
         $BillEditMainForm = new BillEditMainForm();
         if ($BillEditMainForm->load(Yii::$app->request->post()) && $BillEditMainForm->editBill()) {
-            if(Yii::$app->request->post('bills-edit-next-button')){
-                Yii::$app->session->set('bill_id',$bill_data['bill_id']);
-                Yii::$app->session->set('edit',1);
+            if (Yii::$app->request->post('bills-edit-next-button')) {
+                Yii::$app->session->set('bill_id', $bill_data['bill_id']);
+                Yii::$app->session->set('edit', 1);
+
 
                 return $this->redirect(["/bills/add-bill-second"]);
-            }else{
-                return $this->redirect(["/bills"]);
+            } else {
+                $bill_id = $bill_data['bill_id'];
+                return $this->redirect(["bills/bill-view?bill_id=$bill_id"]);
             }
 
         }
@@ -516,49 +522,54 @@ class SiteController extends Controller
     public function actionBillView()
     {
         $id = Yii::$app->request->get('id');
-        if (!$id) {
+        $bill_id = Yii::$app->request->get('bill_id');
+        if (!$id && !$bill_id) {
             return $this->redirect(["/bills"]);
         }
-        $bill_data = Bills::getBillById($id);
+        if ($id) {
+            $bill_data = Bills::getBillById($id);
+        } else {
+            $bill_data = Bills::getBillByBillId($bill_id);
+        }
 
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
         $payers_data = Payers::getPayersFields($selected_fields);
         $payers_data_new = array();
-        foreach($payers_data as $k => $v){
+        foreach ($payers_data as $k => $v) {
             $payers_data_new[$v['id']] = $v;
         }
 
         $services_data = Services::getServicesList();
         $services_data_new = array();
-        foreach($services_data as $k => $v){
+        foreach ($services_data as $k => $v) {
             $services_data_new[$v['id']] = $v;
         }
 
 
         $header_data = FooterHeader::getHeaderList();
         $header_data_new = array();
-        foreach($header_data as $k => $v){
+        foreach ($header_data as $k => $v) {
             $header_data_new[$v['id']] = $v;
         }
 
         $footer_data = FooterHeader::getFooterList();
         $footer_data_new = array();
-        foreach($footer_data as $k => $v){
+        foreach ($footer_data as $k => $v) {
             $footer_data_new[$v['id']] = $v;
         }
 
         $units_data = Units::getUnitsList();
         $units_data_new = array();
-        foreach($units_data as $k => $v){
+        foreach ($units_data as $k => $v) {
             $units_data_new[$v['id']] = $v;
         }
 
-        $services_bill_id_array = explode(';',$bill_data['services_bill_id']);
-        $units_id_array = explode(';',$bill_data['units_id']);
-        $quantity_array = explode(';',$bill_data['quantity']);
-        $prices_array = explode(';',$bill_data['prices']);
-        $services_id_array = explode(';',$bill_data['services_id']);
+        $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
+        $units_id_array = explode(';', $bill_data['units_id']);
+        $quantity_array = explode(';', $bill_data['quantity']);
+        $prices_array = explode(';', $bill_data['prices']);
+        $services_id_array = explode(';', $bill_data['services_id']);
 
 
         return $this->render('bill-view', [
@@ -576,6 +587,92 @@ class SiteController extends Controller
             'services_id_array' => $services_id_array,
 
         ]);
+    }
+
+    public function actionBillPrint()
+    {
+        $id = Yii::$app->request->get('id');
+        $bill_id = Yii::$app->request->get('bill_id');
+        if (!$id && !$bill_id) {
+            return $this->redirect(["/bills"]);
+        }
+        if ($id) {
+            $bill_data = Bills::getBillById($id);
+        } else {
+            $bill_data = Bills::getBillByBillId($bill_id);
+        }
+
+
+        $selected_fields = array('id', 'name', 'contact_person', 'phone');
+        $payers_data = Payers::getPayersFields($selected_fields);
+        $payers_data_new = array();
+        foreach ($payers_data as $k => $v) {
+            $payers_data_new[$v['id']] = $v;
+        }
+
+        $services_data = Services::getServicesList();
+        $services_data_new = array();
+        foreach ($services_data as $k => $v) {
+            $services_data_new[$v['id']] = $v;
+        }
+
+
+        $header_data = FooterHeader::getHeaderList();
+        $header_data_new = array();
+        foreach ($header_data as $k => $v) {
+            $header_data_new[$v['id']] = $v;
+        }
+
+        $footer_data = FooterHeader::getFooterList();
+        $footer_data_new = array();
+        foreach ($footer_data as $k => $v) {
+            $footer_data_new[$v['id']] = $v;
+        }
+
+        $units_data = Units::getUnitsList();
+        $units_data_new = array();
+        foreach ($units_data as $k => $v) {
+            $units_data_new[$v['id']] = $v;
+        }
+
+        $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
+        $units_id_array = explode(';', $bill_data['units_id']);
+        $quantity_array = explode(';', $bill_data['quantity']);
+        $prices_array = explode(';', $bill_data['prices']);
+        $services_id_array = explode(';', $bill_data['services_id']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $html = $this->renderPartial('bill-print', [
+            'bill_data' => $bill_data,
+            'payers_data' => $payers_data_new,
+            'header_data' => $header_data_new,
+            'footer_data' => $footer_data_new,
+            'services_data' => $services_data_new,
+            'units_data' => $units_data_new,
+            'services_bill_id_array' => $services_bill_id_array,
+            'units_id_array' => $units_id_array,
+            'quantity_array' => $quantity_array,
+            'prices_array' => $prices_array,
+            'services_id_array' => $services_id_array,
+        ]);
+
+        $printPdf = new PrintPdf();
+        $printPdf->PrintPdf($html, $bill_data->bill_id);
+
     }
 
 

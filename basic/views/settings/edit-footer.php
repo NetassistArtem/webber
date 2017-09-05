@@ -29,10 +29,10 @@ $this->registerJsFile(
                 <?php $form_footer_edit = ActiveForm::begin([
                     'id' => 'footerAddForm',
                     'options' => ['data-pjax' => false],
-                    'layout' => 'horizontal',
+                   // 'layout' => 'horizontal',
                     'fieldConfig' => [
-                        'template' => "{label}\n<div class=\"col-lg-8 col-md-8 col-sm-8\">{input}</div>\n<div class=\"col-lg-2 col-md-2 col-sm-2\">{error}</div>",
-                        'labelOptions' => ['class' => 'col-lg-2 col-md-2 col-sm-2 control-label'],
+                        'template' => "{label}\n<div class=\"col-lg-12 col-md-12 col-sm-12\">{input}</div>\n<div class=\"col-lg-12 col-md-12 col-sm-12\">{error}</div>",
+                        'labelOptions' => ['class' => 'col-lg-12 col-md-12 col-sm-12 control-label'],
                     ],
 
                 ]); ?>
@@ -55,8 +55,8 @@ $this->registerJsFile(
 
             <?php Pjax::end(); ?>
 
-            <div class="margin_top">
-                <a class="btn btn-info" href="/settings" >Вернуться к настройкам</a>
+            <div class="col-lg-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-4 col-md-4 col-sm-4 margin_top">
+                <a class="btn btn-info btn-block" href="/settings" >Вернуться к настройкам</a>
             </div>
 
         </div>

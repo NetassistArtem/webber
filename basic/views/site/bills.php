@@ -15,7 +15,7 @@ $this->title = 'Счета';
             <p>Список счетов</p>
         </div>
         <div class="panel-body">
-            <?php Pjax::begin(['id' => 'bills_add']); ?>
+
 
             <div class="margin_bottom">
                 <a class="btn btn-success" href="/bills/add-bill-main" >Новый счет</a>
@@ -52,7 +52,8 @@ $this->title = 'Счета';
                             <td colspan="3">
                                 <a href="/bills/edit-bill-main?id=<?= $v['id'] ?>" class="btn btn-primary">Редактировать</a>
                                 <a href="/bills/bill-view?id=<?= $v['id'] ?>"  class="btn btn-success">Просмотреть счет</a>
-                                <a href="/bills/bill_print?id=<?= $v['id'] ?>"  class="btn btn-success">Распечатать счет</a>
+                                <a href="/bills/bill-print?id=<?= $v['id']?>"  class="btn btn-success">Распечатать счет</a>
+
                                 <a href="/bills/bill_act_print?id=<?= $v['id'] ?>"  class="btn btn-success">Распечатать акт</a>
                             </td>
                         </tr>
@@ -66,7 +67,7 @@ $this->title = 'Счета';
 
 
 
-            <?php Pjax::end(); ?>
+
         </div>
     </div>
 
