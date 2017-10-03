@@ -9,10 +9,15 @@ $this->title = '';
 
 ?>
 <div class="site-about">
-
+    <?php if($prev_id): ?>
+    <a href="/bills/bill-view?id=<?= $prev_id ?>" class="btn btn-success"><span class="glyphicon glyphicon-chevron-left" ></span></a>
+    <?php endif;
+    if($next_id):?>
+    <a href="/bills/bill-view?id=<?= $next_id ?>" class="btn btn-success"><span class="glyphicon glyphicon-chevron-right" ></span></a>
+    <?php endif;?>
     <a href="/bills/edit-bill-main?id=<?= $bill_data['id'] ?>" class="btn btn-primary">Редактировать счет</a>
     <a href="/bills/bill-print?id=<?= $bill_data['id'] ?>"  class="btn btn-success">Распечатать счет</a>
-    <a href="/bills/bill_act_print?id=<?= $bill_data['id'] ?>"  class="btn btn-success">Распечатать акт</a>
+    <a href="/bills/act-print?id=<?= $bill_data['id'] ?>"  class="btn btn-success">Распечатать акт</a>
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php
@@ -20,7 +25,7 @@ $this->title = '';
     //Debugger::PrintR($payers_data);
 
     ?>
-    <div>
+    <div id="header_main" >
         <?= $bill_data['header_id'] ? $header_data[$bill_data['header_id']]['text'] : '<div class="bill-view-header-no" ><p>Нет хедера</p></div>'; ?>
     </div>
     <div class="bill_number"><h3>Рахунок № <?= $bill_data['bill_id']?></h3></div>
@@ -141,3 +146,9 @@ $this->title = '';
 
 
 </div>
+
+<script type="text/javascript">
+    var ptch;
+    ptch = document.querySelector('#header_main img').getAttribute('src');
+    document.querySelector('#header_main img').setAttribute('src', '/'+ptch);
+</script>

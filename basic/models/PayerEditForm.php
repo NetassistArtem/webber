@@ -23,6 +23,7 @@ class PayerEditForm extends Model
     public $phone;
     public $person_id;
     public $certificat_pdv_id;
+    public $edrpo;
     public $address_ur;
     public $address_connection;
     public $address_post;
@@ -39,6 +40,7 @@ class PayerEditForm extends Model
                 'phone',
                 'person_id',
                 'certificat_pdv_id',
+                'edrpo',
                 'address_ur',
                 'address_connection',
                 'address_post',
@@ -59,6 +61,7 @@ class PayerEditForm extends Model
                 'phone' => $this->phone,
                 'person_id' => $this->person_id,
                 'certificat_pdv_id' => $this->certificat_pdv_id,
+                'edrpo' => $this->edrpo,
                 'address_ur' => $this->address_ur,
                 'address_connection' => $this->address_connection,
                 'address_post' => $this->address_post,

@@ -90,6 +90,11 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
+                    'pattern' => 'settings/edit-main-settings',
+                    'route' => 'settings/edit-main-settings',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
                     'pattern' => 'settings/delete-unit',
                     'route' => 'settings/delete-unit',
                     //'defaults' => ['page' => 1, 'tag' => ''],
@@ -114,6 +119,12 @@ $config = [
                     'route' => 'settings/delete-footer',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+                [
+                    'pattern' => 'settings/edit-setting',
+                    'route' => 'settings/edit-setting',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
                 [
                     'pattern' => 'services',
                     'route' => 'site/services',
@@ -194,6 +205,51 @@ $config = [
                 [
                     'pattern' => 'bills/edit-bill-main',
                     'route' => 'site/edit-bill-main',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/act-view',
+                    'route' => 'site/act-view',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/act-edit',
+                    'route' => 'site/act-edit',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'bills/act-print',
+                    'route' => 'site/act-print',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'arhive',
+                    'route' => 'site/arhive',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'arhive-return-unit',
+                    'route' => 'site/arhive-return-unit',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'arhive-return-header',
+                    'route' => 'site/arhive-return-footer-header',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'arhive-return-footer',
+                    'route' => 'site/arhive-return-footer-header',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'arhive-return-service',
+                    'route' => 'site/arhive-return-service',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'arhive-return-payer',
+                    'route' => 'site/arhive-return-payer',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
 

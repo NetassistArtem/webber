@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 
 $this->title = 'Услуги';
 
@@ -61,7 +62,7 @@ $this->title = 'Услуги';
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($services_data as $k => $v): ?>
+                    <?php foreach($services_data_page as $k => $v): ?>
 
                         <tr data-toggle="collapse" data-target="#service_tr_<?= $k+1 ?>">
                             <td><?= $k+1 ?></td>
@@ -81,7 +82,12 @@ $this->title = 'Услуги';
             </div>
 
 
+            <div class="col-lg-12 col-md-12 col-sm-12 pagination-custom">
+                <?php echo LinkPager::widget([
+                    'pagination' => $pages,
+                ]); ?>
 
+            </div>
 
 
             <?php Pjax::end(); ?>

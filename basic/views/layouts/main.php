@@ -48,21 +48,44 @@ $no_get_url = explode('?',$f_url)[0];
 
         'items' => [
 
-            ['label' => 'Счета', 'url' => ['/bills'], 'active' => ($no_get_url == "/bills")],
+            ['label' => 'Счета', 'url' => ['/bills'], 'active' => (
+                $no_get_url == "/bills" ||
+                $no_get_url == "/bills/edit-bill" ||
+                $no_get_url == "/bills/bill-view" ||
+                $no_get_url == "/bills/bill-print" ||
+                $no_get_url == "/bills/bill-act-print" ||
+                $no_get_url == "/bills/add-bill-main" ||
+                $no_get_url == "/bills/add-bill-second" ||
+                $no_get_url == "/bills/edit-bill-main" ||
+                $no_get_url == "/bills/act-view" ||
+                $no_get_url == "/bills/act-edit" ||
+                $no_get_url == "/bills/act-print"
+
+            )],
             ['label' => 'Услуги', 'url' => ['/services'], 'active' => (
                 $no_get_url == "/services" ||
                 $no_get_url == "/services/edit-service"
+
+
             )],
             ['label' => 'Клиенты', 'url' => ['/payers'], 'active' => (
                 $no_get_url == "/payers" ||
                 $no_get_url == "/payers/edit-payer" ||
                 $no_get_url == "/payers/payer"
+
+
             )],
             ['label' => 'Настройки', 'url' => ['/settings'], 'active' => (
                 $no_get_url == "/settings" ||
                 $no_get_url == "/settings/edit-unit" ||
                 $no_get_url == "/settings/edit-header" ||
-                $no_get_url == "/settings/edit-footer"
+                $no_get_url == "/settings/edit-footer" ||
+                $no_get_url == "/settings/edit-main-settings" ||
+                $no_get_url == "/settings/edit-setting"
+
+            )],
+            ['label' => 'Архив', 'url' => ['/arhive'], 'active' => (
+                $no_get_url == "/arhive"
             )],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/login']]

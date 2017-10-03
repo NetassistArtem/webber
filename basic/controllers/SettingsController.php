@@ -5,10 +5,14 @@ namespace app\controllers;
 
 
 
+use app\components\debugger\Debugger;
 use app\models\FooterHeader;
+use app\models\MainSettings;
 use app\models\UnitAddForm;
 use app\models\UnitEditForm;
+use app\models\SettingsEditForm;
 use app\models\Units;
+use app\models\Settings;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -16,6 +20,7 @@ use app\models\HeaderAddForm;
 use app\models\HeaderEditForm;
 use app\models\FooterAddForm;
 use app\models\FooterEditForm;
+use app\models\MainSettingsEditForm;
 
 class SettingsController extends Controller
 {
@@ -24,18 +29,18 @@ class SettingsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer'],
+                'only' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer','edit-setting','edit-main-settings'],
                 'rules' => [
                     [
                         'controllers' => ['settings'],
-                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer'],
+                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer', 'edit-setting','edit-main-settings'],
                         'allow' => true,
                         'roles' => ['@'],
 
                     ],
                     [
                         'controllers' => ['settings'],
-                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer'],
+                        'actions' => ['index','edit-unit','delete-unit', 'delete-header', 'edit-header', 'delete-footer', 'edit-footer', 'edit-setting','edit-main-settings'],
                         'allow' => false,
                         'roles' => ['?'],
 
@@ -58,6 +63,8 @@ class SettingsController extends Controller
 
     public function actionIndex()
     {
+        $main_settings_data = MainSettings::getSettingsById(0);
+
         $UnitAddForm = new UnitAddForm();
         $units_data = Units::getUnitsList();
         if ($UnitAddForm->load(Yii::$app->request->post()) && $UnitAddForm->addUnit()) {
@@ -82,6 +89,8 @@ class SettingsController extends Controller
             }
         }
 
+        $settings_data = Settings::getSettingsList();
+
         return $this->render('index',[
             'UnitAddForm' => $UnitAddForm,
             'units_data' => $units_data,
@@ -89,6 +98,8 @@ class SettingsController extends Controller
             'HeaderAddForm' => $HeaderAddForm,
             'footers_data' => $footers_data,
             'FooterAddForm' => $FooterAddForm,
+            'main_settings_data' => $main_settings_data,
+            'settings_data' => $settings_data,
         ]);
     }
 
@@ -119,7 +130,7 @@ class SettingsController extends Controller
             return  $this->redirect(["/settings"]);
         }
 
-        Units::deleteUnit($id);
+        Units::deleteToArhiveUnit($id);
         return $this->redirect(["/settings"]);
     }
     public function actionDeleteHeader()
@@ -129,7 +140,7 @@ class SettingsController extends Controller
             return  $this->redirect(["/settings"]);
         }
 
-        FooterHeader::deleteFooterHeader($id);
+        FooterHeader::deleteToArhiveFooterHeader($id);
         return  $this->redirect(["/settings"]);
     }
 
@@ -160,7 +171,7 @@ class SettingsController extends Controller
             return $this->redirect(["/settings"]);
         }
 
-        FooterHeader::deleteFooterHeader($id);
+        FooterHeader::deleteToArhiveFooterHeader($id);
         return $this->redirect(["/settings"]);
     }
 
@@ -181,6 +192,45 @@ class SettingsController extends Controller
         return $this->render('edit-footer',[
             'FooterEditForm' => $FooterEditForm,
             'footer' => $footer,
+        ]);
+    }
+    public function actionEditMainSettings()
+    {
+
+        $main_settings_data = MainSettings::getSettingsById(0);
+        $MainSettingsEditForm = new MainSettingsEditForm();
+        if ($MainSettingsEditForm->load(Yii::$app->request->post()) && $MainSettingsEditForm->editMainSettings()) {
+            if (!Yii::$app->request->isPjax) {
+                return $this->redirect(["/settings"]);
+            }
+        }
+
+        return $this->render('edit-main-settings',[
+            'MainSettingsEditForm' => $MainSettingsEditForm,
+            'main_settings_data' => $main_settings_data,
+        ]);
+
+    }
+
+    public function actionEditSetting()
+    {
+        $key = Yii::$app->request->get('key');
+        if(!$key){
+            return  $this->redirect(["/settings"]);
+        }
+        $setting = Settings::getSettingByKey($key);
+       // Debugger::PrintR($setting);
+       // Debugger::testDie();
+        $SettingsEditForm = new SettingsEditForm();
+        if ($SettingsEditForm->load(Yii::$app->request->post()) && $SettingsEditForm->editSetting()) {
+            if (!Yii::$app->request->isPjax) {
+                return $this->redirect(["/settings"]);
+            }
+        }
+
+        return $this->render('edit-setting',[
+            'SettingsEditForm' => $SettingsEditForm,
+            'setting' => $setting,
         ]);
     }
 

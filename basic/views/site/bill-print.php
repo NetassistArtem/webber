@@ -21,6 +21,16 @@ use app\components\debugger\Debugger;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="css/site.css">
+    <style>
+        table.table-1 > tr , table.table-1 > td, table.table-1 > p {
+            margin: 0;
+            padding-bottom: 0;
+            padding-top: 0;
+            line-height: 1
+        }
+    </style>
+
 
 
     <?= Html::csrfMetaTags() ?>
@@ -31,37 +41,38 @@ use app\components\debugger\Debugger;
 <body>
 <?php $this->beginBody() ?>
 <div class="container">
-    <div>
+    <div id="header_main" >
         <?= $bill_data->header_id ? $header_data[$bill_data->header_id]['text'] : '<div class="bill-view-header-no" ><p>Нет хедера</p></div>'; ?>
+
     </div>
-    <div class="bill_number"><p>Рахунок № <?= $bill_data->bill_id ?></p></div>
-    <div class="bill_date"><p>від <?= Yii::$app->formatter->asDate($bill_data->date, 'yyyy-MM-dd') ?></p></div>
+    <div class="bill_number" style="margin: 0; padding-bottom: 5px;padding-top: -80px;" ><p style="margin: 0">Рахунок № <?= $bill_data->bill_id ?></p></div>
+    <div class="bill_date" style="margin: 0; padding-bottom: 5px;padding-top: -40px;"><p>від <?= Yii::$app->formatter->asDate($bill_data->date, 'yyyy-MM-dd') ?></p></div>
     <div>
-        <table class="table table-responsive table-no-border">
-            <tr>
-                <td></td>
-                <td><p>Платник:</p></td>
-                <td>
-                    <p><?= $bill_data->payer_id ? $payers_data[$bill_data->payer_id]['name'] : '<div class="bill-view-header-no" ><p>Нет платильщик</p></div>'; ?></p>
+        <table class="table table-sm table-no-border table-1" >
+            <tr style="margin: 0; padding: 0;" >
+                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><p style="margin: 0; padding: 0;" >Платник:</p></td>
+                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" >
+                    <p style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><?= $bill_data->payer_id ? $payers_data[$bill_data->payer_id]['name'] : '<div class="bill-view-header-no" ><p>Нет платильщик</p></div>'; ?></p>
                 </td>
             </tr>
-            <tr>
-                <td></td>
-                <td><p>Особа для контактів:</p></td>
-                <td>
+            <tr style="margin: 0; padding: 0;">
+                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><p style="margin: 0; padding: 0;" >Особа для контактів:</p></td>
+                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" >
                     <?php if($bill_data->payer_id): ?>
-                        <p><?= $payers_data[$bill_data->payer_id]['contact_person'] ? $payers_data[$bill_data->payer_id]['contact_person'] : '<span></span>'; ?></p>
+                        <p style="margin: 0; padding: 0;" ><?= $payers_data[$bill_data->payer_id]['contact_person'] ? $payers_data[$bill_data->payer_id]['contact_person'] : '<span></span>'; ?></p>
                     <?php else: ?>
                         <span ></span>
                     <?php endif; ?>
                 </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><p>Телефон/факс:</p></td>
-                <td>
+            </tr  >
+            <tr style="margin: 0; padding-bottom: 10px;padding-top: 0;line-height: 1;" >
+                <td style="margin: 0; padding-bottom: 5px;padding-top: 0; line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 5px;padding-top: 0; line-height: 1;" ><p style="margin: 0; padding: 0;" >Телефон/факс:</p></td>
+                <td style="margin: 0; padding-bottom: 5px;padding-top: 0; line-height: 1;" >
                     <?php if($bill_data->payer_id): ?>
-                        <p><?= $payers_data[$bill_data->payer_id]['phone'] ? $payers_data[$bill_data->payer_id]['phone'] : '<span></span>'; ?></p>
+                        <p style="margin: 0; padding: 0;" ><?= $payers_data[$bill_data->payer_id]['phone'] ? $payers_data[$bill_data->payer_id]['phone'] : '<span></span>'; ?></p>
                     <?php else: ?>
                         <span></span>
                     <?php endif; ?>
@@ -71,15 +82,15 @@ use app\components\debugger\Debugger;
     </div>
     <div>
 
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>№</th>
-                <th>Найменування</th>
-                <th>Од.вим.</th>
-                <th>Кільк.</th>
-                <th>Ціна,грв.</th>
-                <th>Сумма, грв.</th>
+        <table class="table table-bordered table-hover " style="margin: 0; padding: 0;line-height: 1;">
+            <thead style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">
+            <tr style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">№</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Найменування</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Од.вим.</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Кільк.</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Ціна,грв.</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Сумма, грв.</th>
             </tr>
             </thead>
             <tbody>
@@ -92,45 +103,45 @@ use app\components\debugger\Debugger;
                 ?>
 
                 <tr>
-                    <td><?= $v ?></td>
+                    <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $v ?></td>
 
-                    <td><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                    <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                     <?php if ($services_id_array[0]): ?>
-                        <td><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td><?= $sum ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $sum ?></td>
                     <?php else: ?>
-                        <td><span class="badge  badge-danger">Нет данных</span></td>
-                        <td><span class="badge  badge-danger">Нет данных</span></td>
-                        <td><span class="badge  badge-danger">Нет данных</span></td>
-                        <td><span class="badge  badge-danger">Нет данных</span></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
             <tr class="table-no-border">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Сумма:</td>
-                <td><?= $all_sum ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" >Сумма:</td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $all_sum ?></td>
             </tr>
             <tr class="table-no-border">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>ПДВ:</td>
-                <td><?= $all_sum / 5 ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" >ПДВ:</td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $all_sum / 5 ?></td>
             </tr>
             <tr class="table-no-border">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>До сплати:</td>
-                <td><?= ($all_sum / 5) + $all_sum ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" >До сплати:</td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ><?= ($all_sum / 5) + $all_sum ?></td>
             </tr>
             </tbody>
         </table>
@@ -151,6 +162,7 @@ use app\components\debugger\Debugger;
     </div>
 
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -16,6 +16,11 @@ $this->title = 'Редактирование клиента';
             <p>Редактирование - <?= $payer->name ?></p>
         </div>
         <div class="panel-body">
+            <?php if($payer->delete == 1): ?>
+                <div class="alert alert-warning" >
+                    Запрашиваемый клиент удален. Восстановить можно в разделе <b><a href="/arhive">Архив</a></b>.
+                </div>
+            <?php else: ?>
 
             <?php Pjax::begin(['id' => 'payer_edit']); ?>
             <div class="">
@@ -41,6 +46,7 @@ $this->title = 'Редактирование клиента';
                 <?= $form_payer_edit->field($PayerEditForm, 'phone')->label('Телефоны')->textInput(['value' => $payer->phone]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'person_id')->label('ИП №')->textInput(['value' => $payer->person_id]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'certificat_pdv_id')->label('Свидетельство платильщика НДС №')->textInput(['value' => $payer->certificat_pdv_id]) ?>
+            <?= $form_payer_edit->field($PayerEditForm, 'edrpo')->label('ЄДРПОУ')->textInput(['value' => $payer->edrpo]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'address_ur')->label('Адресс юредический')->textInput(['value' => $payer->address_ur]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'address_connection')->label('Адресс подключения')->textInput(['value' => $payer->address_connection]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'address_post')->label('Адрес почтовый')->textInput(['value' => $payer->address_post]) ?>
@@ -62,7 +68,7 @@ $this->title = 'Редактирование клиента';
 
             <?php Pjax::end(); ?>
 
-
+           <?php endif; ?>
 
         </div>
     </div>

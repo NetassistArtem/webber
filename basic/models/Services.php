@@ -28,10 +28,18 @@ class Services extends  ActiveRecord
 
     public static function getServicesList()
     {
-        $services = self::find()->asArray()->all();
+        $services = self::find()->where(['delete' => -1])->asArray()->all();
 
         return $services;
     }
+
+    public static function getServicesArhiveList()
+    {
+        $services = self::find()->where(['delete' => 1])->asArray()->all();
+
+        return $services;
+    }
+
     public static function insertService($name)
     {
         $service = new Services();
@@ -59,8 +67,20 @@ class Services extends  ActiveRecord
        $service = Services::findOne($id);
         $service->delete();
 
+    }
+    public static  function deleteToArhiveService($id)
+    {
+        $service = Services::findOne($id);
+        $service->delete = 1;
+        $service->save();
 
-        //return true;
+    }
+    public static  function returnToArhiveService($id)
+    {
+        $service = Services::findOne($id);
+        $service->delete = -1;
+        $service->save();
+
     }
 
 

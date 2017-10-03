@@ -28,13 +28,27 @@ class FooterHeader extends  ActiveRecord
 
     public static function getHeaderList()
     {
-        $headers = self::find()->where(['footer_header' =>1])->asArray()->all();
+        $headers = self::find()->where(['footer_header' =>1, 'delete' => -1])->asArray()->all();
 
         return $headers;
     }
+
+    public static function getHeaderArhiveList()
+    {
+        $headers = self::find()->where(['footer_header' =>1, 'delete' => 1])->asArray()->all();
+
+        return $headers;
+    }
+
     public static function getFooterList()
     {
-        $footers = self::find()->where(['footer_header' =>2])->asArray()->all();
+        $footers = self::find()->where(['footer_header' => 2, 'delete' => -1])->asArray()->all();
+
+        return $footers;
+    }
+    public static function getFooterArhiveList()
+    {
+        $footers = self::find()->where(['footer_header' => 2, 'delete' => 1])->asArray()->all();
 
         return $footers;
     }
@@ -70,6 +84,19 @@ class FooterHeader extends  ActiveRecord
 
 
         //return true;
+    }
+
+    public static  function deleteToArhiveFooterHeader($id)
+    {
+        $fh = FooterHeader::findOne($id);
+        $fh->delete = 1;
+        $fh->save();
+    }
+    public static  function returnFromArhiveFooterHeader($id)
+    {
+        $fh = FooterHeader::findOne($id);
+        $fh->delete = -1;
+        $fh->save();
     }
 
 

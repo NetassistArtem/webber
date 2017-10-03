@@ -209,7 +209,54 @@ th.collapse-th-td {
 }
 
 .control-label{
-    margin-top: 30px;
+ /*   margin-top: 30px;*/
     margin-bottom: 10px;
+}
+
+.table >tbody > tr.table-padding-custom > td{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.table >tbody > tr.table-padding-custom > td >p{
+    margin-bottom: 0;
+}
+.table >tbody > tr.table-padding-custom-bottom > td{
+    padding-top: 0;
+    padding-bottom: 8px;
+}
+.table >tbody > tr.table-padding-custom-bottom-2 > td{
+    padding-bottom: 0;
+}
+.column-first-custom{
+    display: inline-block;
+    width: 15%;
+}
+.column-first-custom-2{
+    display: inline-block;
+    width: 30%;
+}
+.column-second-custom{
+    display: inline-block;
+}
+
+.margin_top2{
+    margin-top: 5px;
+}
+
+.btn_color1{
+    background-color: #FFCC66;
+
+}
+.btn_color2{
+    background-color: #9999CC;
+}
+.btn_color3{
+    background-color: #9CCC65;
+}
+.btn_color4{
+    background-color: #80CBC4;
+}
+.btn_color5{
+    background-color: #EF9A9A;
 }
 

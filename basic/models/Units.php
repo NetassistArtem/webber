@@ -28,10 +28,18 @@ class Units extends  ActiveRecord
 
     public static function getUnitsList()
     {
-        $units = self::find()->asArray()->all();
+        $units = self::find()->where(['delete' => -1])->asArray()->all();
 
         return $units;
     }
+
+    public static function getUnitsArhiveList()
+    {
+        $units = self::find()->where(['delete' => 1])->asArray()->all();
+
+        return $units;
+    }
+
     public static function insertUnit($name)
     {
         $unit = new Units();
@@ -61,6 +69,21 @@ class Units extends  ActiveRecord
 
 
         //return true;
+    }
+    public static function deleteToArhiveUnit($id)
+    {
+        $unit = Units::findOne($id);
+        $unit->delete = 1;
+        $unit->save();
+
+    }
+
+    public static function returnFromArhiveUnit($id)
+    {
+        $unit = Units::findOne($id);
+        $unit->delete = -1;
+        $unit->save();
+
     }
 
 

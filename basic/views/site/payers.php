@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 
 $this->title = 'Клиенты';
 
@@ -39,6 +40,7 @@ $this->title = 'Клиенты';
                 <?= $form_payer_add->field($PayerAddForm, 'phone')->textInput()->label('Телефоны') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'person_id')->label('ИП №') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'certificat_pdv_id')->label('Свидетельство платильщика НДС №') ?>
+                <?= $form_payer_add->field($PayerAddForm, 'edrpo')->label('ЄДРПОУ') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'address_ur')->label('Адресс юредический') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'address_connection')->label('Адресс подключения') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'address_post')->label('Адрес почтовый') ?>
@@ -71,7 +73,7 @@ $this->title = 'Клиенты';
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($payers_data as $k => $v): ?>
+                    <?php foreach($payers_data_page as $k => $v): ?>
 
                         <tr data-toggle="collapse" data-target="#payer_tr_<?= $k+1 ?>">
                             <td><?= $k+1 ?></td>
@@ -92,7 +94,12 @@ $this->title = 'Клиенты';
             </div>
 
 
+            <div class="col-lg-12 col-md-12 col-sm-12 pagination-custom">
+                <?php echo LinkPager::widget([
+                    'pagination' => $pages,
+                ]); ?>
 
+            </div>
 
 
             <?php Pjax::end(); ?>

@@ -19,6 +19,50 @@ $this->registerJsFile(
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 
+
+    <div class=" panel panel-default">
+        <div class="panel-heading">
+            <p>Основные данные</p>
+        </div>
+        <div class="panel-body">
+            <div class="margin_bottom" >
+                <a href="/settings/edit-main-settings" class="btn btn-primary">Редактировать</a>
+            </div>
+
+
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover table-border-custom">
+                    <thead>
+                    <tr>
+                        <th>Имя Директора</th>
+                        <th>Название предприятия</th>
+                        <th>ЭДРПОУ</th>
+                        <th>ИПН</th>
+                        <th>Свидетельство №</th>
+                        <th>Юр. Адрес</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><?= $main_settings_data['name_dir'] ?></td>
+                        <td><?= $main_settings_data['name_firm'] ?></td>
+                        <td><?= $main_settings_data['edrpo'] ?></td>
+                        <td><?= $main_settings_data['ipn'] ?></td>
+                        <td><?= $main_settings_data['certificate'] ?></td>
+                        <td><?= $main_settings_data['adress'] ?></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+
     <div class=" panel panel-default">
         <div class="panel-heading">
             <p>Единици измерения</p>
@@ -264,6 +308,53 @@ $this->registerJsFile(
                             <td colspan="2">
                                 <a href="/settings/edit-footer?id=<?= $v['id'] ?>" class="btn btn-primary">Редактировать</a>
                                 <a href="/settings/delete-footer?id=<?= $v['id'] ?>" onclick="return confirm('Вы уверены что хотите удалить <?= $v['name'] ?>')" class="btn btn-danger delete">Удалить</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+            </div>
+            <?php Pjax::end(); ?>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class=" panel panel-default">
+        <div class="panel-heading">
+            <p>Настройки</p>
+        </div>
+        <div class="panel-body">
+            <?php Pjax::begin(['id' => 'settings']); ?>
+
+
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover table-border-custom">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Значение</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($settings_data as $k => $v): ?>
+
+                        <tr data-toggle="collapse" data-target="#setting_tr_<?= $k+1 ?>">
+                            <td><?= $v['name'] ?></td>
+                            <td><?= $v['value'] ?></td>
+                        </tr>
+
+                        <tr id="setting_tr_<?= $k+1 ?>" class="collapse" >
+                            <td colspan="2">
+                                <a href="/settings/edit-setting?key=<?= $v['key'] ?>" class="btn btn-primary">Изменить</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

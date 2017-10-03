@@ -16,6 +16,11 @@ $this->title = 'Редактирование услуги';
             <p>Редактирование - <?= $service->name ?></p>
         </div>
         <div class="panel-body">
+            <?php if($service->delete == 1): ?>
+                <div class="alert alert-warning" >
+                    Запрашиваемая услуга удалена. Восстановить можно в разделе <b><a href="/arhive">Архив</a></b>.
+                </div>
+            <?php else: ?>
             <?php Pjax::begin(['id' => 'service-edit']); ?>
 
 
@@ -44,6 +49,7 @@ $this->title = 'Редактирование услуги';
                 <?php ActiveForm::end(); ?>
 
             <?php Pjax::end(); ?>
+            <?php endif; ?>
 
             <div class="margin_top">
                 <a class="btn btn-info" href="/services" >Вернуться к списку услуг</a>

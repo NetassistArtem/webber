@@ -22,6 +22,11 @@ $this->registerJsFile(
             <p>Редактирование - <?= $footer->name ?></p>
         </div>
         <div class="panel-body">
+            <?php if($footer->delete == 1): ?>
+                <div class="alert alert-warning" >
+                    Запрашиваемый футер удален. Восстановить можно в разделе <b><a href="/arhive">Архив</a></b>.
+                </div>
+            <?php else: ?>
             <?php Pjax::begin(['id' => 'footer-edit']); ?>
 
 
@@ -54,6 +59,7 @@ $this->registerJsFile(
                 <?php ActiveForm::end(); ?>
 
             <?php Pjax::end(); ?>
+            <?php endif; ?>
 
             <div class="col-lg-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-4 col-md-4 col-sm-4 margin_top">
                 <a class="btn btn-info btn-block" href="/settings" >Вернуться к настройкам</a>

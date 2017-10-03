@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 
 $this->title = 'Счета';
 
@@ -34,7 +35,7 @@ $this->title = 'Счета';
                     </thead>
                     <tbody>
 
-                    <?php foreach($bills_data as $k => $v): ?>
+                    <?php foreach($bills_data_page as $k => $v): ?>
 
                         <tr data-toggle="collapse" data-target="#bills_tr_<?= $k+1 ?>">
                             <td><?= $v['bill_id'] ? $v['bill_id'] : 'Нет данных' ?></td>
@@ -53,8 +54,9 @@ $this->title = 'Счета';
                                 <a href="/bills/edit-bill-main?id=<?= $v['id'] ?>" class="btn btn-primary">Редактировать</a>
                                 <a href="/bills/bill-view?id=<?= $v['id'] ?>"  class="btn btn-success">Просмотреть счет</a>
                                 <a href="/bills/bill-print?id=<?= $v['id']?>"  class="btn btn-success">Распечатать счет</a>
-
-                                <a href="/bills/bill_act_print?id=<?= $v['id'] ?>"  class="btn btn-success">Распечатать акт</a>
+                                <a href="/bills/act-print?id=<?= $v['id'] ?>"  class="btn btn-success">Распечатать акт</a>
+                                <a href="/bills/act-view?bill_id=<?= $v['bill_id'] ?>"  class="btn btn-success">Просмотреть акт</a>
+                                <a href="/bills/act-edit?bill_id=<?= $v['bill_id'] ?>"  class="btn btn-success">Редактировать акт</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -66,7 +68,12 @@ $this->title = 'Счета';
 
 
 
+            <div class="col-lg-12 col-md-12 col-sm-12 pagination-custom">
+                <?php echo LinkPager::widget([
+                    'pagination' => $pages,
+                ]); ?>
 
+            </div>
 
         </div>
     </div>

@@ -20,12 +20,21 @@ $this->title = 'Страница клиента';
 
 
 
+            <?php if (!$payer->delete == 1): ?>
+                <div class="margin_bottom">
 
-<div class="margin_bottom">
-    <a href="/payers/edit-payer?id=<?= $payer->id ?>" class="btn btn-primary">Редактировать</a>
-    <a href="/payers/delete-payer?id=<?= $payer->id ?>" onclick="return confirm('Вы уверены что хотите удалить <?= $payer->name ?>')" class="btn btn-danger">Удалить</a>
+                    <a href="/payers/edit-payer?id=<?= $payer->id ?>" class="btn btn-primary">Редактировать</a>
+                    <a href="/payers/delete-payer?id=<?= $payer->id ?>"
+                       onclick="return confirm('Вы уверены что хотите удалить <?= $payer->name ?>')"
+                       class="btn btn-danger">Удалить</a>
 
-</div>
+                </div>
+            <?php else: ?>
+
+                <div class="alert alert-warning">
+                    Запрашиваемый клиент удален. Восстановить можно в разделе <b><a href="/arhive">Архив</a></b>.
+                </div>
+            <?php endif; ?>
 
             <div class="table-responsive">
 
@@ -39,58 +48,59 @@ $this->title = 'Страница клиента';
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Имя клиента</td>
-                            <td><?= $payer->name ?></td>
-                        </tr>
-                        <tr>
-                            <td>Контактное лицо</td>
-                            <td><?= $payer->contact_person ?></td>
-                        </tr>
-                        <tr>
-                            <td>Телефоны</td>
-                            <td><?= $payer->phone ?></td>
-                        </tr>
-                        <tr>
-                            <td>ИП №</td>
-                            <td><?= $payer->person_id ?></td>
-                        </tr>
-                        <tr>
-                            <td>Свидетельство платильщика НДС №</td>
-                            <td><?= $payer->certificat_pdv_id ?></td>
-                        </tr>
-                        <tr>
-                            <td>Адресс юредический</td>
-                            <td><?= $payer->address_ur ?></td>
-                        </tr>
-                        <tr>
-                            <td>Адресс подключения</td>
-                            <td><?= $payer->address_connection ?></td>
-                        </tr>
-                        <tr>
-                            <td>Адрес почтовый</td>
-                            <td><?= $payer->address_post ?></td>
-                        </tr>
-                        <tr>
-                            <td>E-mail</td>
-                            <td><?= $payer->email ?></td>
-                        </tr>
-                        <tr>
-                            <td>Номер договора</td>
-                            <td><?= $payer->contract_id ?></td>
-                        </tr>
-                        <tr>
-                            <td>Дата договора</td>
-                            <td><?= $payer->contract_date ?></td>
-                        </tr>
+                    <tr>
+                        <td>Имя клиента</td>
+                        <td><?= $payer->name ?></td>
+                    </tr>
+                    <tr>
+                        <td>Контактное лицо</td>
+                        <td><?= $payer->contact_person ?></td>
+                    </tr>
+                    <tr>
+                        <td>Телефоны</td>
+                        <td><?= $payer->phone ?></td>
+                    </tr>
+                    <tr>
+                        <td>ИП №</td>
+                        <td><?= $payer->person_id ?></td>
+                    </tr>
+                    <tr>
+                        <td>Свидетельство платильщика НДС №</td>
+                        <td><?= $payer->certificat_pdv_id ?></td>
+                    </tr>
+                    <tr>
+                        <td>ЄДРПОУ</td>
+                        <td><?= $payer->edrpo ?></td>
+                    </tr>
+                    <tr>
+                        <td>Адресс юредический</td>
+                        <td><?= $payer->address_ur ?></td>
+                    </tr>
+                    <tr>
+                        <td>Адресс подключения</td>
+                        <td><?= $payer->address_connection ?></td>
+                    </tr>
+                    <tr>
+                        <td>Адрес почтовый</td>
+                        <td><?= $payer->address_post ?></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td><?= $payer->email ?></td>
+                    </tr>
+                    <tr>
+                        <td>Номер договора</td>
+                        <td><?= $payer->contract_id ?></td>
+                    </tr>
+                    <tr>
+                        <td>Дата договора</td>
+                        <td><?= $payer->contract_date ?></td>
+                    </tr>
 
 
                     </tbody>
                 </table>
             </div>
-
-
-
 
 
             <?php Pjax::end(); ?>

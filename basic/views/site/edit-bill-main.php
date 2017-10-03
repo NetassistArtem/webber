@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
-
+Pjax::begin(['id' => 'bill_edit']);
 $this->title = 'Редактирование счета №'.$bill_data['bill_id'];
 
 ?>
@@ -16,7 +16,7 @@ $this->title = 'Редактирование счета №'.$bill_data['bill_id
             <p>Основные данные счета</p>
         </div>
         <div class="panel-body">
-            <?php Pjax::begin(['id' => 'bill_edit']); ?>
+
 
 
 
@@ -49,7 +49,12 @@ $this->title = 'Редактирование счета №'.$bill_data['bill_id
 
 
 
-
+            <?php if($prev_id): ?>
+                <a href="/bills/edit-bill-main?id=<?= $prev_id ?>" class="btn btn-success"><span class="glyphicon glyphicon-chevron-left" ></span></a>
+            <?php endif;
+            if($next_id):?>
+                <a href="/bills/edit-bill-main?id=<?= $next_id ?>" class="btn btn-success"><span class="glyphicon glyphicon-chevron-right" ></span></a>
+            <?php endif;?>
                     <?= Html::submitButton("Сохранить и выйти", ['class' => 'btn btn-primary ', 'name' => 'bills-edit-button', 'id' => 'bill-edit-id', 'value' =>1 ]) ?>
                     <?= Html::submitButton("Сохранить и редактировать услуги", ['class' => 'btn btn-primary', 'name' => 'bills-edit-next-button', 'id' => 'bill-edit-next-id', 'value' =>1 ]) ?>
                     <a href="/bills" class="btn btn-success">Вернуться к списку счетов</a>
@@ -60,9 +65,10 @@ $this->title = 'Редактирование счета №'.$bill_data['bill_id
 
 
 
-            <?php Pjax::end(); ?>
+
         </div>
     </div>
 
 
 </div>
+<?php Pjax::end(); ?>

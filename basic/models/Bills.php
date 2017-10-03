@@ -122,7 +122,7 @@ class Bills extends  ActiveRecord
     public static function addService($data_array)
     {
         $bill_id = $data_array['id_bill'];
-        $bill = self::findOne(['bill_id' => $bill_id]);
+        $bill = Bills::findOne(['bill_id' => $bill_id]);
 
       //  Debugger::PrintR($bill);
       //  Debugger::EhoBr($bill->id);

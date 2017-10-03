@@ -28,10 +28,18 @@ class Payers extends  ActiveRecord
 
     public static function getPayersList()
     {
-        $payers = self::find()->asArray()->all();
+        $payers = self::find()->where(['delete' => -1])->asArray()->all();
 
         return $payers;
     }
+
+    public static function getPayersArhiveList()
+    {
+        $payers = self::find()->where(['delete' => 1])->asArray()->all();
+
+        return $payers;
+    }
+
     public static function getPayersFields(array $fields_name)
     {
         $fields_string = '';
@@ -57,6 +65,7 @@ class Payers extends  ActiveRecord
         $payer->phone = $data_array['phone'];
         $payer->person_id = $data_array['person_id'];
         $payer->certificat_pdv_id = $data_array['certificat_pdv_id'];
+        $payer->edrpo = $data_array['edrpo'];
         $payer->address_ur = $data_array['address_ur'];
         $payer->address_connection = $data_array['address_connection'];
         $payer->address_post = $data_array['address_post'];
@@ -84,6 +93,7 @@ class Payers extends  ActiveRecord
         $payer->phone = $data_array['phone'];
         $payer->person_id = $data_array['person_id'];
         $payer->certificat_pdv_id = $data_array['certificat_pdv_id'];
+        $payer->edrpo = $data_array['edrpo'];
         $payer->address_ur = $data_array['address_ur'];
         $payer->address_connection = $data_array['address_connection'];
         $payer->address_post = $data_array['address_post'];
@@ -97,6 +107,21 @@ class Payers extends  ActiveRecord
     {
        $payer = Payers::findOne($id);
         $payer->delete();
+
+    }
+
+    public static  function deleteToArhivePayer($id)
+    {
+        $payer = Payers::findOne($id);
+        $payer->delete = 1;
+        $payer->save();
+
+    }
+    public static  function returnToArhivePayer($id)
+    {
+        $payer = Payers::findOne($id);
+        $payer->delete = -1;
+        $payer->save();
 
     }
 

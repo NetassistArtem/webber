@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use app\components\debugger\Debugger;
+use app\models\Acts;
 use app\models\Bills;
 use app\models\FooterHeader;
+use app\models\MainSettings;
 use app\models\Payers;
 use app\models\ServiceAddForm;
 use app\models\ServiceEditForm;
@@ -13,7 +15,9 @@ use app\models\PayerEditForm;
 use app\models\BillAddMainForm;
 use app\models\BillAddSecondForm;
 use app\models\BillEditMainForm;
+use app\models\ActEditForm;
 use app\models\Services;
+use app\models\Settings;
 use app\models\Units;
 use app\models\PrintPdf;
 use Yii;
@@ -23,6 +27,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\data\Pagination;
 
 
 class SiteController extends Controller
@@ -54,6 +59,15 @@ class SiteController extends Controller
                     'bill-act-print',
                     'add-bill-main',
                     'add-bill-second',
+                    'act-print',
+                    'act-view',
+                    'act-edit',
+                    'bill-view',
+                    'arhive-return-footer-header',
+                    'arhive',
+                    'arhive-return-unit',
+                    'arhive-return-service',
+                    'arhive-return-payer'
                 ],
                 'rules' => [
                     [
@@ -77,6 +91,15 @@ class SiteController extends Controller
                             'bill-act-print',
                             'add-bill-main',
                             'add-bill-second',
+                            'act-print',
+                            'act-view',
+                            'act-edit',
+                            'bill-view',
+                            'arhive-return-footer-header',
+                            'arhive',
+                            'arhive-return-unit',
+                            'arhive-return-service',
+                            'arhive-return-payer'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -103,6 +126,15 @@ class SiteController extends Controller
                             'bill-act-print',
                             'add-bill-main',
                             'add-bill-second',
+                            'act-print',
+                            'act-view',
+                            'act-edit',
+                            'bill-view',
+                            'arhive-return-footer-header',
+                            'arhive',
+                            'arhive-return-unit',
+                            'arhive-return-service',
+                            'arhive-return-payer'
                         ],
                         'allow' => false,
                         'roles' => ['?'],
@@ -215,10 +247,19 @@ class SiteController extends Controller
                 return $this->redirect(["/services"]);
             }
         }
+        $services_per_page = Settings::getSettingByKey('services_per_page');
+        $pages = new Pagination(['totalCount' => count($services_data), 'pageSize' => $services_per_page->value]);
+        $pages->pageSizeParam = false;
+
+        $services_data_page = array_slice($services_data, $pages->offset, $pages->limit, $preserve_keys = true);
+
+
 
         return $this->render('services', [
             'ServiceAddForm' => $ServiceAddForm,
             'services_data' => $services_data,
+            'services_data_page' =>$services_data_page,
+            'pages' => $pages,
         ]);
     }
 
@@ -249,8 +290,18 @@ class SiteController extends Controller
             return $this->redirect(["/services"]);
         }
 
-        Services::deleteService($id);
+        Services::deleteToArhiveService($id);
         return $this->redirect(["/services"]);
+    }
+    public function actionArhiveReturnService()
+    {
+        $id = Yii::$app->request->get('id');
+        if (!$id) {
+            return $this->redirect(["/arhive"]);
+        }
+
+        Services::returnToArhiveService($id);
+        return $this->redirect(["/arhive"]);
     }
 
     public function actionPayers()
@@ -264,10 +315,18 @@ class SiteController extends Controller
                 return $this->redirect(["/payers"]);
             }
         }
+        $payers_per_page = Settings::getSettingByKey('payers_per_page');
+        $pages = new Pagination(['totalCount' => count($payers_data), 'pageSize' => $payers_per_page->value]);
+        $pages->pageSizeParam = false;
+
+        $payers_data_page = array_slice($payers_data, $pages->offset, $pages->limit, $preserve_keys = true);
+
 
         return $this->render('payers', [
             'PayerAddForm' => $PayerAddForm,
             'payers_data' => $payers_data,
+            'payers_data_page' => $payers_data_page,
+            'pages' => $pages,
         ]);
     }
 
@@ -314,8 +373,19 @@ class SiteController extends Controller
             return $this->redirect(["/payers"]);
         }
 
-        Payers::deletePayer($id);
+        Payers::deleteToArhivePayer($id);
         return $this->redirect(["/payers"]);
+    }
+
+    public function actionArhiveReturnPayer()
+    {
+        $id = Yii::$app->request->get('id');
+        if (!$id) {
+            return $this->redirect(["/arhive"]);
+        }
+
+        Payers::returnToArhivePayer($id);
+        return $this->redirect(["/arhive"]);
     }
 
     public function actionBills()
@@ -323,6 +393,7 @@ class SiteController extends Controller
 
         Yii::$app->session->remove('bill_id');
         Yii::$app->session->remove('edit');
+
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
         $payers_data = Payers::getPayersFields($selected_fields);
@@ -333,13 +404,20 @@ class SiteController extends Controller
         }
 
         $bills_data = Bills::getBillsList();
+        $bills_per_page = Settings::getSettingByKey('bills_per_page');
+        $pages = new Pagination(['totalCount' => count($bills_data), 'pageSize' => $bills_per_page->value]);
+        $pages->pageSizeParam = false;
+
+        $bills_data_page = array_slice($bills_data, $pages->offset, $pages->limit, $preserve_keys = true);
 
 
         return $this->render('bills', [
 
             'bills_data' => $bills_data,
+            'bills_data_page' => $bills_data_page,
             'payers_id_name' => $payers_id_name,
             'payers_data' => $payers_data,
+            'pages' => $pages,
 
         ]);
     }
@@ -376,6 +454,9 @@ class SiteController extends Controller
 
         if ($BillAddMainForm->load(Yii::$app->request->post()) && $BillAddMainForm->addBill()) {
             if (!Yii::$app->request->isPjax) {
+                $bill_id = Yii::$app->session->get('bill_id');
+                $acts = new Acts();
+                $acts->createAct($bill_id);
 
                 return $this->redirect(["/bills/add-bill-second"]);
             }
@@ -429,7 +510,7 @@ class SiteController extends Controller
 
                         if (!Yii::$app->request->isPjax) {
 
-                            return $this->redirect(["/bill-view?bill_id=$bill_id"]);
+                            return $this->redirect(["/bills/bill-view?bill_id=$bill_id"]);
                         }
                     } elseif (Yii::$app->request->post('more-service')) {
 
@@ -509,6 +590,12 @@ class SiteController extends Controller
 
         }
 
+        $bills_data = Bills::getBillsList();
+        $last_id = array_pop($bills_data)['id'];
+        $first_id = array_shift($bills_data)['id'];
+        $next_id = ($bill_data['id'] + 1) > $last_id? false : ($bill_data['id'] + 1);
+        $prev_id = ($bill_data['id'] - 1) < $first_id? false : ($bill_data['id'] - 1);
+
         return $this->render('edit-bill-main', [
             'BillEditMainForm' => $BillEditMainForm,
             'bill_data' => $bill_data,
@@ -516,6 +603,8 @@ class SiteController extends Controller
             'payers_data' => $payers_data,
             'header_data' => $header_id_name,
             'footer_data' => $footer_id_name,
+            'next_id' => $next_id,
+            'prev_id' => $prev_id,
         ]);
     }
 
@@ -572,6 +661,15 @@ class SiteController extends Controller
         $services_id_array = explode(';', $bill_data['services_id']);
 
 
+        $bills_data = Bills::getBillsList();
+        $last_id = array_pop($bills_data)['id'];
+        $first_id = array_shift($bills_data)['id'];
+        $next_id = ($bill_data['id'] + 1) > $last_id? false : ($bill_data['id'] + 1);
+        $prev_id = ($bill_data['id'] - 1) < $first_id? false : ($bill_data['id'] - 1);
+
+
+
+
         return $this->render('bill-view', [
 
             'bill_data' => $bill_data,
@@ -585,6 +683,8 @@ class SiteController extends Controller
             'quantity_array' => $quantity_array,
             'prices_array' => $prices_array,
             'services_id_array' => $services_id_array,
+            'next_id' => $next_id,
+            'prev_id' => $prev_id,
 
         ]);
     }
@@ -641,20 +741,7 @@ class SiteController extends Controller
         $prices_array = explode(';', $bill_data['prices']);
         $services_id_array = explode(';', $bill_data['services_id']);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        $media_path= Yii::$app->basePath ."/web/";
 
         $html = $this->renderPartial('bill-print', [
             'bill_data' => $bill_data,
@@ -668,12 +755,251 @@ class SiteController extends Controller
             'quantity_array' => $quantity_array,
             'prices_array' => $prices_array,
             'services_id_array' => $services_id_array,
+            'media_path' => $media_path,
         ]);
 
         $printPdf = new PrintPdf();
-        $printPdf->PrintPdf($html, $bill_data->bill_id);
+        $printPdf->PrintPdf($html, 'bill_'.$bill_data->bill_id);
 
     }
+
+
+
+
+    public function actionActEdit()
+    {
+        $bill_id = Yii::$app->request->get('bill_id');
+
+        if (!$bill_id) {
+            return $this->redirect(["/bills"]);
+        }
+        $act_data = Acts::getActByBillId($bill_id);
+
+        $ActEditForm = new ActEditForm();
+        if ($ActEditForm->load(Yii::$app->request->post()) && $ActEditForm->editAct()) {
+
+            return $this->redirect(["bills/act-view?bill_id=$bill_id"]);
+
+        }
+
+        return $this->render('act-edit', [
+            'ActEditForm' => $ActEditForm,
+            'act_data' => $act_data,
+        ]);
+    }
+
+
+    public function actionActView()
+    {
+        $id = Yii::$app->request->get('id');
+        $bill_id = Yii::$app->request->get('bill_id');
+        if (!$id && !$bill_id) {
+            return $this->redirect(["/bills"]);
+        }
+        if ($id) {
+            $bill_data = Bills::getBillById($id);
+        } else {
+            $bill_data = Bills::getBillByBillId($bill_id);
+        }
+
+
+        $selected_fields = array('id', 'name', 'contact_person', 'phone');
+        $payers_data = Payers::getPayersFields($selected_fields);
+        $payers_data_new = Payers::getPayerById($bill_data['payer_id']);
+       // $payers_data_new = array();
+       // foreach ($payers_data as $k => $v) {
+         //   $payers_data_new[$v['id']] = $v;
+       // }
+
+        $services_data = Services::getServicesList();
+        $services_data_new = array();
+        foreach ($services_data as $k => $v) {
+            $services_data_new[$v['id']] = $v;
+        }
+
+
+        $header_data = FooterHeader::getHeaderList();
+        $header_data_new = array();
+        foreach ($header_data as $k => $v) {
+            $header_data_new[$v['id']] = $v;
+        }
+
+        $footer_data = FooterHeader::getFooterList();
+        $footer_data_new = array();
+        foreach ($footer_data as $k => $v) {
+            $footer_data_new[$v['id']] = $v;
+        }
+
+        $units_data = Units::getUnitsList();
+        $units_data_new = array();
+        foreach ($units_data as $k => $v) {
+            $units_data_new[$v['id']] = $v;
+        }
+
+        $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
+        $units_id_array = explode(';', $bill_data['units_id']);
+        $quantity_array = explode(';', $bill_data['quantity']);
+        $prices_array = explode(';', $bill_data['prices']);
+        $services_id_array = explode(';', $bill_data['services_id']);
+
+        $act_data = Acts::getActByBillId($bill_data['bill_id']);
+        $main_settings_data = MainSettings::getSettingsById(0);
+
+        $date_month = Yii::$app->formatter->asDate($bill_data['date'], 'yyyy-MM');
+        $last_day_month = strtotime("last day of $date_month");
+
+
+
+
+        return $this->render('act-view', [
+
+            'bill_data' => $bill_data,
+            'act_data' => $act_data,
+            'main_settings_data' => $main_settings_data,
+            'last_day_month' => $last_day_month,
+            'payers_data' => $payers_data_new,
+            'header_data' => $header_data_new,
+            'footer_data' => $footer_data_new,
+            'services_data' => $services_data_new,
+            'units_data' => $units_data_new,
+            'services_bill_id_array' => $services_bill_id_array,
+            'units_id_array' => $units_id_array,
+            'quantity_array' => $quantity_array,
+            'prices_array' => $prices_array,
+            'services_id_array' => $services_id_array,
+
+        ]);
+    }
+
+    public function actionActPrint()
+    {
+        $id = Yii::$app->request->get('id');
+        $bill_id = Yii::$app->request->get('bill_id');
+        if (!$id && !$bill_id) {
+            return $this->redirect(["/bills"]);
+        }
+        if ($id) {
+            $bill_data = Bills::getBillById($id);
+        } else {
+            $bill_data = Bills::getBillByBillId($bill_id);
+        }
+
+
+        $selected_fields = array('id', 'name', 'contact_person', 'phone');
+        $payers_data = Payers::getPayersFields($selected_fields);
+        $payers_data_new = Payers::getPayerById($bill_data['payer_id']);
+        // $payers_data_new = array();
+        // foreach ($payers_data as $k => $v) {
+        //   $payers_data_new[$v['id']] = $v;
+        // }
+
+        $services_data = Services::getServicesList();
+        $services_data_new = array();
+        foreach ($services_data as $k => $v) {
+            $services_data_new[$v['id']] = $v;
+        }
+
+
+        $header_data = FooterHeader::getHeaderList();
+        $header_data_new = array();
+        foreach ($header_data as $k => $v) {
+            $header_data_new[$v['id']] = $v;
+        }
+
+        $footer_data = FooterHeader::getFooterList();
+        $footer_data_new = array();
+        foreach ($footer_data as $k => $v) {
+            $footer_data_new[$v['id']] = $v;
+        }
+
+        $units_data = Units::getUnitsList();
+        $units_data_new = array();
+        foreach ($units_data as $k => $v) {
+            $units_data_new[$v['id']] = $v;
+        }
+
+        $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
+        $units_id_array = explode(';', $bill_data['units_id']);
+        $quantity_array = explode(';', $bill_data['quantity']);
+        $prices_array = explode(';', $bill_data['prices']);
+        $services_id_array = explode(';', $bill_data['services_id']);
+
+        $act_data = Acts::getActByBillId($bill_data['bill_id']);
+        $main_settings_data = MainSettings::getSettingsById(0);
+
+        $date_month = Yii::$app->formatter->asDate($bill_data['date'], 'yyyy-MM');
+        $last_day_month = strtotime("last day of $date_month");
+
+
+
+
+        $html = $this->renderPartial('act-print', [
+
+            'bill_data' => $bill_data,
+            'act_data' => $act_data,
+            'main_settings_data' => $main_settings_data,
+            'last_day_month' => $last_day_month,
+            'payers_data' => $payers_data_new,
+            'header_data' => $header_data_new,
+            'footer_data' => $footer_data_new,
+            'services_data' => $services_data_new,
+            'units_data' => $units_data_new,
+            'services_bill_id_array' => $services_bill_id_array,
+            'units_id_array' => $units_id_array,
+            'quantity_array' => $quantity_array,
+            'prices_array' => $prices_array,
+            'services_id_array' => $services_id_array,
+
+        ]);
+
+        $file_name = isset($act_data->act_id) ? 'act_'.$act_data->act_id : 'act_'.$bill_data['bill_id'];
+
+        $printPdf = new PrintPdf();
+        $printPdf->PrintPdf($html, $file_name);
+    }
+
+    public function actionArhive()
+    {
+
+        $units_data = Units::getUnitsArhiveList();
+        $headers_data = FooterHeader::getHeaderArhiveList();
+        $footers_data = FooterHeader::getFooterArhiveList();
+        $services_data = Services::getServicesArhiveList();
+        $payers_data = Payers::getPayersArhiveList();
+
+        return $this->render('arhive', [
+            'units_data' => $units_data,
+            'footers_data' => $footers_data,
+            'headers_data' => $headers_data,
+            'services_data' => $services_data,
+            'payers_data' => $payers_data,
+        ]);
+    }
+
+
+    public function actionArhiveReturnUnit()
+    {
+        $id = Yii::$app->request->get('id');
+        if(!$id){
+            return  $this->redirect(["/arhive"]);
+        }
+
+        Units::returnFromArhiveUnit($id);
+        return $this->redirect(["/arhive"]);
+    }
+
+    public function actionArhiveReturnFooterHeader()
+    {
+        $id = Yii::$app->request->get('id');
+        if(!$id){
+            return  $this->redirect(["/arhive"]);
+        }
+
+        FooterHeader::returnFromArhiveFooterHeader($id);
+        return $this->redirect(["/arhive"]);
+    }
+
+
 
 
 }

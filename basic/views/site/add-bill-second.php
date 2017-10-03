@@ -197,7 +197,7 @@ if(!$edit){
 
                 <?= Html::submitButton("Сохранить", ['class' => 'btn btn-primary', 'name' => 'save-service', 'value' => 1, 'id' => 'save-service',]) ?>
                 <?= Html::submitButton("Сохранить и добавить еще услугу", ['class' => 'btn btn-primary', 'name' => 'more-service', 'value' => 1, 'id' => 'more-service',]) ?>
-                <a href="/bills" class="btn btn-success">Перейти к сохраненному счету</a>
+                <a href="/bills/bill-view?bill_id=<?= $bill_id ?>" class="btn btn-success">Перейти к сохраненному счету</a>
 
 
                 <?php ActiveForm::end(); ?>
