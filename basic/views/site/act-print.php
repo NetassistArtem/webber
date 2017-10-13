@@ -50,7 +50,7 @@ $this->title = '';
     ?>
 <div style="height: 48%">
     <div class="text-center">
-        <p>АКТ № <b><?= $act_data['act_id'] ? $act_data['act_id'] : $bill_data['bill_id'] ?></b></p>
+        <p>АКТ № <b><?= $act_data['act_id'] ? $act_data['act_id'] : $bill_id_small ?></b></p>
         <p>здачі-прийнятя робіт (надання послуг)</p>
     </div>
     <div>
@@ -156,7 +156,7 @@ $this->title = '';
 
 
     <div class="text-center">
-        <p>АКТ № <b><?= $act_data['act_id'] ? $act_data['act_id'] : $bill_data['bill_id'] ?></b></p>
+        <p>АКТ № <b><?= $act_data['act_id'] ? $act_data['act_id'] : $bill_id_small ?></b></p>
         <p>здачі-прийнятя робіт (надання послуг)</p>
     </div>
     <div>

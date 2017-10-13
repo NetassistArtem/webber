@@ -67,6 +67,12 @@ class Bills extends  ActiveRecord
     {
         return strtotime($value);
     }
+
+    public static function toSmallDateFormat($date)
+    {
+      return  substr(str_replace('-','', $date),2);
+    }
+
     public static function insertBill($data_array)
     {
         $bill_id = self::createBillId();

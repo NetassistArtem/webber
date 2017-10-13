@@ -420,6 +420,7 @@ class SiteController extends Controller
             'payers_data' => $payers_data,
             'pages' => $pages,
 
+
         ]);
     }
 
@@ -701,6 +702,7 @@ class SiteController extends Controller
         } else {
             $bill_data = Bills::getBillByBillId($bill_id);
         }
+        $bill_id_small = substr(str_replace('-','', $bill_data['bill_id']),2) ;
 
        // $date_today = Yii::$app->formatter->asDate('now', ' MMMM yyyy');
         $data_for_services_array = explode('-',$bill_data['bill_id']);
@@ -835,6 +837,7 @@ class SiteController extends Controller
             'last_id' => $last_id,
             'first_id' => $first_id,
             'logo_url' => $logo_url,
+            'bill_id_small' => Bills::toSmallDateFormat($bill_data['bill_id']),
 
         ]);
     }
@@ -851,6 +854,8 @@ class SiteController extends Controller
         } else {
             $bill_data = Bills::getBillByBillId($bill_id);
         }
+
+        $bill_id_small = substr(str_replace('-','', $bill_data['bill_id']),2) ;
 
         $data_for_services_array = explode('-',$bill_data['bill_id']);
 
@@ -965,6 +970,7 @@ class SiteController extends Controller
             'services_id_array' => $services_id_array,
             'media_path' => $media_path,
             'logo_url' => $logo_url,
+            'bill_id_small' => Bills::toSmallDateFormat($bill_data['bill_id']),
         ]);
 
         $printPdf = new PrintPdf();
@@ -1010,6 +1016,8 @@ class SiteController extends Controller
         } else {
             $bill_data = Bills::getBillByBillId($bill_id);
         }
+
+        $bill_id_small = substr(str_replace('-','', $bill_data['bill_id']),2) ;
 
         $data_for_services_array = explode('-',$bill_data['bill_id']);
 
@@ -1088,6 +1096,7 @@ class SiteController extends Controller
             'quantity_array' => $quantity_array,
             'prices_array' => $prices_array,
             'services_id_array' => $services_id_array,
+            'bill_id_small' => Bills::toSmallDateFormat($bill_data['bill_id']),
 
         ]);
     }
@@ -1104,6 +1113,8 @@ class SiteController extends Controller
         } else {
             $bill_data = Bills::getBillByBillId($bill_id);
         }
+
+
 
         $data_for_services_array = explode('-',$bill_data['bill_id']);
 
@@ -1179,6 +1190,7 @@ class SiteController extends Controller
             'quantity_array' => $quantity_array,
             'prices_array' => $prices_array,
             'services_id_array' => $services_id_array,
+            'bill_id_small' => Bills::toSmallDateFormat($bill_data['bill_id']),
 
         ]);
 

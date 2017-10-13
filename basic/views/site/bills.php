@@ -4,6 +4,7 @@ use yii\bootstrap\ActiveForm;
 use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
+use app\models\Bills;
 
 
 $this->title = 'Счета';
@@ -39,7 +40,7 @@ $this->title = 'Счета';
                     <?php foreach($bills_data_page as $k => $v): ?>
 
                         <tr data-toggle="collapse" data-target="#bills_tr_<?= $k+1 ?>">
-                            <td><?= $v['bill_id'] ? $v['bill_id'] : 'Нет данных' ?></td>
+                            <td><?= $v['bill_id'] ? Bills::toSmallDateFormat($v['bill_id']) : 'Нет данных' ?></td>
                             <td><?= $v['date']? Yii::$app->formatter->asDate($v['date'], 'dd.MM.yyyy')  : 'Нет данных' ?></td>
                             <td><?= $v['payer_id']? $payers_id_name[$v['payer_id']] : '<span class="badge  badge-danger" >Нет платильщика</span>'  ?>
                                 <?= $v['services_id']? '' : '<span class="badge  badge-danger badge-danger-custom" >Нет услуг</span>'  ?>

@@ -63,7 +63,7 @@ $this->title = '';
         </div>
 
     </div>
-    <div class="bill_number"><h3>Рахунок № <?= $bill_data['bill_id'] ?></h3></div>
+    <div class="bill_number"><h3>Рахунок № <?= $bill_id_small ?></h3></div>
     <div class="bill_date"><p>від <?= Yii::$app->formatter->asDate($bill_data['date'], 'yyyy-MM-dd') ?></p></div>
     <div>
         <table class="table table-responsive table-no-border">

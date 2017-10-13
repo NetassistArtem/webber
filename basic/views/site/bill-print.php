@@ -63,7 +63,7 @@ use app\components\debugger\Debugger;
 
 
     </div>
-    <div class="bill_number" style="margin: 0; padding-bottom: 5px;padding-top: -80px;" ><p style="margin: 0">Рахунок № <?= $bill_data->bill_id ?></p></div>
+    <div class="bill_number" style="margin: 0; padding-bottom: 5px;padding-top: -80px;" ><p style="margin: 0">Рахунок № <?= $bill_id_small ?></p></div>
     <div class="bill_date" style="margin: 0; padding-bottom: 5px;padding-top: -40px;"><p>від <?= Yii::$app->formatter->asDate($bill_data->date, 'yyyy-MM-dd') ?></p></div>
     <div>
         <table class="table table-sm table-no-border table-1" >
