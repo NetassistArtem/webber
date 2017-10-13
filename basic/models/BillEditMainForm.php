@@ -34,14 +34,16 @@ class BillEditMainForm extends Model
         ];
     }
 
-    public function editBill()
+    public function editBill($payers_id_name)
     {
         if ($this->validate()) {
+
+            $payer_id = array_search($this->payer_id, $payers_id_name);//в $this->payer_id приходит имя а не id
             $data_array = array(
 
                 'id' =>$this->id,
                 'date' => $this->date,
-                'payer_id' => $this->payer_id,
+                'payer_id' => $payer_id,
                 'info' => $this->info,
                 'header_id' => $this->header_id,
                 'footer_id' => $this->footer_id,

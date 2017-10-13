@@ -9,6 +9,11 @@ $this->title = 'Новый счет';
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
+    <div class="margin-badge">
+        <span class="badge-active-font" ><span class="badge badge-pill badge-active" >1</span> Добавление основных данных</span>
+        <span class="glyphicon glyphicon-chevron-right" ></span>
+        <span class="badge-inactive" ><span class="badge badge-pill" >2</span> Добавление услуг</span>
+    </div>
 
     <div class=" panel panel-default">
         <div class="panel-heading">
@@ -16,6 +21,7 @@ $this->title = 'Новый счет';
         </div>
         <div class="panel-body">
             <?php Pjax::begin(['id' => 'bills_add']); ?>
+
 
 
 
@@ -34,8 +40,21 @@ $this->title = 'Новый счет';
 
 
                 <?= $form_bill_add->field($BillAddMainForm, 'date')->input('date',['value' => Yii::$app->formatter->asDate('now', 'yyyy-MM-dd')])->label('Дата') ?>
-                <?= $form_bill_add->field($BillAddMainForm, 'payer_id')->dropDownList($payers_id_name, ['prompt' => 'Выберите клиента'])->label('Клиент') ?>
-                <?= $form_bill_add->field($BillAddMainForm, 'info')->textarea(['rows' => 3])->label('Дополнительная информация') ?>
+
+
+            <?='';//$form_bill_add->field($BillAddMainForm, 'payer_id')->dropDownList($payers_id_name, ['prompt' => 'Выберите клиента'])->label('Клиент') ?>
+            <?= $form_bill_add->field($BillAddMainForm, 'payer_id')->input('text',['list'=> 'payers_list', 'autocomplete'=>"off"])->label('Клиент') ?>
+
+            <datalist id="payers_list">
+                <?php foreach($payers_id_name as $k => $v): ?>
+                    <option value='<?= $v  ?>' />
+                <?php endforeach; ?>
+
+            </datalist>
+
+
+
+            <?= $form_bill_add->field($BillAddMainForm, 'info')->textarea(['rows' => 3])->label('Дополнительная информация') ?>
                 <?= $form_bill_add->field($BillAddMainForm, 'header_id')->dropDownList($header_data, ['prompt' => 'Выберите хедер'])->label('Хедер счета') ?>
                 <?= $form_bill_add->field($BillAddMainForm, 'footer_id')->dropDownList($footer_data, ['prompt' => 'Выберите футер'])->label('Футер счета') ?>
 

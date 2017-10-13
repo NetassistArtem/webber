@@ -32,6 +32,12 @@ class Payers extends  ActiveRecord
 
         return $payers;
     }
+    public static function getPayersListAll()
+    {
+        $payers = self::find()->asArray()->all();
+
+        return $payers;
+    }
 
     public static function getPayersArhiveList()
     {
@@ -56,6 +62,43 @@ class Payers extends  ActiveRecord
         return $payers_fields;
 
     }
+
+    public static function getPayersFieldsWithoutDeleted(array $fields_name)
+    {
+        $fields_string = '';
+        foreach($fields_name as $k=>$v){
+            $fields_string .= '`'.$v.'`, ';
+        }
+        $fields_string_n = trim($fields_string, ', ');
+        if($fields_string_n == ''){
+            $fields_string_n = 'id';
+        }
+
+        $payers_fields = self::find()->select([$fields_string_n])->where(['delete' => -1])->asArray()->all();
+
+        return $payers_fields;
+
+    }
+
+
+    public static function getPayersFieldsArhive(array $fields_name)
+    {
+        $fields_string = '';
+        foreach($fields_name as $k=>$v){
+            $fields_string .= '`'.$v.'`, ';
+        }
+        $fields_string_n = trim($fields_string, ', ');
+        if($fields_string_n == ''){
+            $fields_string_n = 'id';
+        }
+
+        $payers_fields = self::find()->select([$fields_string_n])->where(['delete' => 1])->asArray()->all();
+
+        return $payers_fields;
+
+    }
+
+
     public static function insertPayer($data_array)
     {
 
@@ -124,6 +167,7 @@ class Payers extends  ActiveRecord
         $payer->save();
 
     }
+
 
 
 }

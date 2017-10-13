@@ -41,6 +41,7 @@ class PrintPdf extends Model
        // $dompdf = new Dompdf(array('ENABLE_AUTOLOAD' => true));
         $dompdf->set_option('isRemoteEnabled', true);
         $dompdf->set_base_path('/home/artem/public_html/test08/basic/web/');
+        //$dompdf->set_base_path('/var/www/webbernu/data/www/invoice.webber.net.ua/basic/web/');
         $dompdf->set_option('defaultPaperSize', 'a4');
         //$dompdf->set_option('chroot', $bp);
       //  $dompdf->set_option('logOutputFile', 'print');

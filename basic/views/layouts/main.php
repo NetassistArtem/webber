@@ -81,7 +81,8 @@ $no_get_url = explode('?',$f_url)[0];
                 $no_get_url == "/settings/edit-header" ||
                 $no_get_url == "/settings/edit-footer" ||
                 $no_get_url == "/settings/edit-main-settings" ||
-                $no_get_url == "/settings/edit-setting"
+                $no_get_url == "/settings/edit-setting" ||
+                $no_get_url == "/settings/edit-logo"
 
             )],
             ['label' => 'Архив', 'url' => ['/arhive'], 'active' => (

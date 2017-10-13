@@ -6,6 +6,7 @@ use app\components\debugger\Debugger;
 use app\models\Acts;
 use app\models\Bills;
 use app\models\FooterHeader;
+use app\models\Logo;
 use app\models\MainSettings;
 use app\models\Payers;
 use app\models\ServiceAddForm;
@@ -430,7 +431,7 @@ class SiteController extends Controller
 
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
-        $payers_data = Payers::getPayersFields($selected_fields);
+        $payers_data = Payers::getPayersFieldsWithoutDeleted($selected_fields);
 
         $payers_id_name = array();
         foreach ($payers_data as $k => $v) {
@@ -452,7 +453,7 @@ class SiteController extends Controller
         $BillAddMainForm = new BillAddMainForm();
 
 
-        if ($BillAddMainForm->load(Yii::$app->request->post()) && $BillAddMainForm->addBill()) {
+        if ($BillAddMainForm->load(Yii::$app->request->post()) && $BillAddMainForm->addBill($payers_id_name)) {
             if (!Yii::$app->request->isPjax) {
                 $bill_id = Yii::$app->session->get('bill_id');
                 $acts = new Acts();
@@ -485,6 +486,7 @@ class SiteController extends Controller
         //  Yii::$app->session->remove('edit');
         $BillAddSecondForm = new BillAddSecondForm();
         $bill_services = $BillAddSecondForm->getBillServices($bill_id);
+     //   Debugger::PrintR($bill_services);
 
         if ($BillAddSecondForm->load(Yii::$app->request->post())) {
             // Debugger::PrintR($_POST);
@@ -527,17 +529,54 @@ class SiteController extends Controller
             $services_id_name[$v['id']] = $v['name'];
         }
 
+
+        $services_arhive_data = Services::getServicesArhiveList();
+        $services_arhive_id_name = array();
+        foreach ($services_arhive_data as $k => $v) {
+            $services_arhive_id_name[$v['id']] = $v['name'];
+        }
+
+
         $units_data = Units::getUnitsList();
         $units_id_name = array();
         foreach ($units_data as $k => $v) {
             $units_id_name[$v['id']] = $v['name'];
         }
 
+        $units_arive_data = Units::getUnitsArhiveList();
+        $units_arhive_id_name = array();
+        foreach ($units_arive_data as $k => $v) {
+            $units_arhive_id_name[$v['id']] = $v['name'];
+        }
+
+    //    Debugger::PrintR($services_id_name);
+        $services_id_name_select = $services_id_name;
+        $units_id_name_select = $units_id_name;
+
+       foreach($bill_services['services'] as $k => $v){
+
+           if(isset($services_arhive_id_name[$v])){
+               $services_id_name_select[$v] = $services_arhive_id_name[$v].' (услуга удалена)';
+           }
+           if(isset($units_arhive_id_name[$bill_services['units'][$k]])){
+               $units_id_name_select[$bill_services['units'][$k]] = $units_arhive_id_name[$bill_services['units'][$k]].' (единица удалена)';
+
+           }
+
+       }
+      //  Debugger::PrintR($services_id_name_select);
+
+
+
 
         return $this->render('add-bill-second', [
             'BillAddSecondForm' => $BillAddSecondForm,
             'services_data' => $services_id_name,
+            'services_id_name_select' => $services_id_name_select,
+            'services_arhive_data' => $services_arhive_id_name,
             'units_data' => $units_id_name,
+            'units_arhive_data' => $units_arhive_id_name,
+            'units_id_name_select' => $units_id_name_select,
             'bill_services' => $bill_services,
             'edit' => $edit,
             'bill_id' => $bill_id,
@@ -557,17 +596,32 @@ class SiteController extends Controller
 
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
-        $payers_data = Payers::getPayersFields($selected_fields);
-
+        $payers_data = Payers::getPayersFieldsWithoutDeleted($selected_fields);
         $payers_id_name = array();
         foreach ($payers_data as $k => $v) {
             $payers_id_name[$v['id']] = $v['name'];
         }
+        $payers_arhive_data = Payers::getPayersFieldsArhive($selected_fields);
+        $payers_arhive_id_name = array();
+        foreach ($payers_arhive_data as $k => $v) {
+            $payers_arhive_id_name[$v['id']] = $v['name'];
+        }
+
+
         $header_data = FooterHeader::getHeaderList();
         $header_id_name = array();
         foreach ($header_data as $k => $v) {
             $header_id_name[$v['id']] = $v['name'];
         }
+
+
+        $header_arhive_data = FooterHeader::getHeaderArhiveList();
+        $header_arhive_id_name = array();
+        foreach ($header_arhive_data as $k => $v) {
+            $header_arhive_id_name[$v['id']] = $v['name'];
+        }
+
+
 
         $footer_data = FooterHeader::getFooterList();
         $footer_id_name = array();
@@ -575,8 +629,14 @@ class SiteController extends Controller
             $footer_id_name[$v['id']] = $v['name'];
         }
 
+        $footer_arhive_data = FooterHeader::getFooterArhiveList();
+        $footer_arhive_id_name = array();
+        foreach ($footer_arhive_data as $k => $v) {
+            $footer_arhive_id_name[$v['id']] = $v['name'];
+        }
+
         $BillEditMainForm = new BillEditMainForm();
-        if ($BillEditMainForm->load(Yii::$app->request->post()) && $BillEditMainForm->editBill()) {
+        if ($BillEditMainForm->load(Yii::$app->request->post()) && $BillEditMainForm->editBill($payers_id_name)) {
             if (Yii::$app->request->post('bills-edit-next-button')) {
                 Yii::$app->session->set('bill_id', $bill_data['bill_id']);
                 Yii::$app->session->set('edit', 1);
@@ -596,15 +656,36 @@ class SiteController extends Controller
         $next_id = ($bill_data['id'] + 1) > $last_id? false : ($bill_data['id'] + 1);
         $prev_id = ($bill_data['id'] - 1) < $first_id? false : ($bill_data['id'] - 1);
 
+        $payers_id_name_select = $payers_id_name;
+        if(isset($payers_arhive_id_name[$bill_data['payer_id']])){
+            $payers_id_name_select[$bill_data['payer_id']] = $payers_arhive_id_name[$bill_data['payer_id']].' (клиент удален)';
+        }
+
+        $header_id_name_select = $header_id_name;
+        if(isset($header_arhive_id_name[$bill_data['header_id']])){
+            $header_id_name_select[$bill_data['header_id']] = $header_arhive_id_name[$bill_data['header_id']].' (хедер удален)';
+        }
+        $footer_id_name_select = $footer_id_name;
+        if(isset($footer_arhive_id_name[$bill_data['footer_id']])){
+            $footer_id_name_select[$bill_data['footer_id']] = $footer_arhive_id_name[$bill_data['footer_id']].' (футер удален)';
+        }
+
+
+
         return $this->render('edit-bill-main', [
             'BillEditMainForm' => $BillEditMainForm,
             'bill_data' => $bill_data,
             'payers_id_name' => $payers_id_name,
+            'payers_id_name_select' => $payers_id_name_select,
             'payers_data' => $payers_data,
             'header_data' => $header_id_name,
+            'header_id_name_select' => $header_id_name_select,
             'footer_data' => $footer_id_name,
+            'footer_id_name_select' => $footer_id_name_select,
             'next_id' => $next_id,
             'prev_id' => $prev_id,
+            'last_id' => $last_id,
+            'first_id' => $first_id,
         ]);
     }
 
@@ -621,18 +702,50 @@ class SiteController extends Controller
             $bill_data = Bills::getBillByBillId($bill_id);
         }
 
+       // $date_today = Yii::$app->formatter->asDate('now', ' MMMM yyyy');
+        $data_for_services_array = explode('-',$bill_data['bill_id']);
+
+        $data_for_services = '  '.Yii::$app->params['ukr-month'][$data_for_services_array[1]]. ' '.$data_for_services_array[0];
+
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
-        $payers_data = Payers::getPayersFields($selected_fields);
+        $payers_data = Payers::getPayersFieldsWithoutDeleted($selected_fields);
         $payers_data_new = array();
         foreach ($payers_data as $k => $v) {
             $payers_data_new[$v['id']] = $v;
         }
 
+        $payers_arhive_data = Payers::getPayersFieldsArhive($selected_fields);
+        $payers_arhive_data_new = array();
+        foreach ($payers_arhive_data as $k => $v) {
+            $payers_arhive_data_new[$v['id']] = $v;
+        }
+
         $services_data = Services::getServicesList();
+       // Debugger::PrintR($services_data);
         $services_data_new = array();
         foreach ($services_data as $k => $v) {
-            $services_data_new[$v['id']] = $v;
+            if($v['add_month_year']== 1){
+                $services_data_new[$v['id']] = $v;
+                $services_data_new[$v['id']]['name'] = $v['name'].$data_for_services;
+            }else{
+                $services_data_new[$v['id']] = $v;
+            }
+
+        }
+
+
+        $services_arhive_data = Services::getServicesArhiveList();
+        $services_arhive_data_new = array();
+        foreach ($services_arhive_data as $k => $v) {
+
+            if($v['add_month_year']== 1){
+                $services_arhive_data_new[$v['id']] = $v;
+                $services_arhive_data_new[$v['id']]['name'] = $v['name'].$data_for_services;
+            }else{
+                $services_arhive_data_new[$v['id']] = $v;
+            }
+
         }
 
 
@@ -642,17 +755,39 @@ class SiteController extends Controller
             $header_data_new[$v['id']] = $v;
         }
 
+        $header_arhive_data = FooterHeader::getHeaderArhiveList();
+        $header_arhive_data_new = array();
+        foreach ($header_arhive_data as $k => $v) {
+            $header_arhive_data_new[$v['id']] = $v;
+        }
+
+
         $footer_data = FooterHeader::getFooterList();
         $footer_data_new = array();
         foreach ($footer_data as $k => $v) {
             $footer_data_new[$v['id']] = $v;
         }
 
+        $footer_arhive_data = FooterHeader::getFooterArhiveList();
+        $footer_arhive_data_new = array();
+        foreach ($footer_arhive_data as $k => $v) {
+            $footer_arhive_data_new[$v['id']] = $v;
+        }
+
+
         $units_data = Units::getUnitsList();
         $units_data_new = array();
         foreach ($units_data as $k => $v) {
             $units_data_new[$v['id']] = $v;
         }
+
+
+        $units_arhive_data = Units::getUnitsArhiveList();
+        $units_arhive_data_new = array();
+        foreach ($units_arhive_data as $k => $v) {
+            $units_arhive_data_new[$v['id']] = $v;
+        }
+
 
         $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
         $units_id_array = explode(';', $bill_data['units_id']);
@@ -667,6 +802,13 @@ class SiteController extends Controller
         $next_id = ($bill_data['id'] + 1) > $last_id? false : ($bill_data['id'] + 1);
         $prev_id = ($bill_data['id'] - 1) < $first_id? false : ($bill_data['id'] - 1);
 
+        $logo = Logo::getLogoById($bill_data['logo_id']);
+      //  Debugger::PrintR($logo);
+       // Debugger::EhoBr($logo);
+     //   Debugger::EhoBr($bill_data['logo_id']);
+     //   Debugger::testDie();
+        $logo_url = $logo->url;
+
 
 
 
@@ -674,10 +816,15 @@ class SiteController extends Controller
 
             'bill_data' => $bill_data,
             'payers_data' => $payers_data_new,
+            'payers_arhive_data' => $payers_arhive_data_new,
             'header_data' => $header_data_new,
+            'header_arhive_data' => $header_arhive_data_new,
             'footer_data' => $footer_data_new,
+            'footer_arhive_data' => $footer_arhive_data_new,
             'services_data' => $services_data_new,
+            'services_arhive_data' => $services_arhive_data_new,
             'units_data' => $units_data_new,
+            'units_arhive_data' => $units_arhive_data_new,
             'services_bill_id_array' => $services_bill_id_array,
             'units_id_array' => $units_id_array,
             'quantity_array' => $quantity_array,
@@ -685,6 +832,9 @@ class SiteController extends Controller
             'services_id_array' => $services_id_array,
             'next_id' => $next_id,
             'prev_id' => $prev_id,
+            'last_id' => $last_id,
+            'first_id' => $first_id,
+            'logo_url' => $logo_url,
 
         ]);
     }
@@ -702,18 +852,48 @@ class SiteController extends Controller
             $bill_data = Bills::getBillByBillId($bill_id);
         }
 
+        $data_for_services_array = explode('-',$bill_data['bill_id']);
+
+        $data_for_services = '  '.Yii::$app->params['ukr-month'][$data_for_services_array[1]]. ' '.$data_for_services_array[0];
+
+
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
-        $payers_data = Payers::getPayersFields($selected_fields);
+        $payers_data = Payers::getPayersFieldsWithoutDeleted($selected_fields);
         $payers_data_new = array();
         foreach ($payers_data as $k => $v) {
             $payers_data_new[$v['id']] = $v;
         }
 
+        $payers_arhive_data = Payers::getPayersFieldsArhive($selected_fields);
+        $payers_arhive_data_new = array();
+        foreach ($payers_arhive_data as $k => $v) {
+            $payers_arhive_data_new[$v['id']] = $v;
+        }
+
         $services_data = Services::getServicesList();
         $services_data_new = array();
         foreach ($services_data as $k => $v) {
-            $services_data_new[$v['id']] = $v;
+
+            if($v['add_month_year']== 1){
+                $services_data_new[$v['id']] = $v;
+                $services_data_new[$v['id']]['name'] = $v['name'].$data_for_services;
+            }else{
+                $services_data_new[$v['id']] = $v;
+            }
+
+        }
+
+        $services_arhive_data = Services::getServicesArhiveList();
+        $services_arhive_data_new = array();
+        foreach ($services_arhive_data as $k => $v) {
+            if($v['add_month_year']== 1){
+                $services_arhive_data_new[$v['id']] = $v;
+                $services_arhive_data_new[$v['id']]['name'] = $v['name'].$data_for_services;
+            }else{
+                $services_arhive_data_new[$v['id']] = $v;
+            }
+
         }
 
 
@@ -723,16 +903,35 @@ class SiteController extends Controller
             $header_data_new[$v['id']] = $v;
         }
 
+        $header_arhive_data = FooterHeader::getHeaderArhiveList();
+        $header_arhive_data_new = array();
+        foreach ($header_arhive_data as $k => $v) {
+            $header_arhive_data_new[$v['id']] = $v;
+        }
+
         $footer_data = FooterHeader::getFooterList();
         $footer_data_new = array();
         foreach ($footer_data as $k => $v) {
             $footer_data_new[$v['id']] = $v;
         }
 
+        $footer_arhive_data = FooterHeader::getFooterArhiveList();
+        $footer_arhive_data_new = array();
+        foreach ($footer_arhive_data as $k => $v) {
+            $footer_arhive_data_new[$v['id']] = $v;
+        }
+
         $units_data = Units::getUnitsList();
         $units_data_new = array();
         foreach ($units_data as $k => $v) {
             $units_data_new[$v['id']] = $v;
+        }
+
+
+        $units_arhive_data = Units::getUnitsArhiveList();
+        $units_arhive_data_new = array();
+        foreach ($units_arhive_data as $k => $v) {
+            $units_arhive_data_new[$v['id']] = $v;
         }
 
         $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
@@ -743,19 +942,29 @@ class SiteController extends Controller
 
         $media_path= Yii::$app->basePath ."/web/";
 
+        $logo = Logo::getLogoById($bill_data['logo_id']);
+
+        $logo_url = $logo->url;
+
         $html = $this->renderPartial('bill-print', [
             'bill_data' => $bill_data,
             'payers_data' => $payers_data_new,
+            'payers_arhive_data' => $payers_arhive_data_new,
             'header_data' => $header_data_new,
+            'header_arhive_data' => $header_arhive_data_new,
             'footer_data' => $footer_data_new,
+            'footer_arhive_data' => $footer_arhive_data_new,
             'services_data' => $services_data_new,
+            'services_arhive_data' => $services_arhive_data_new,
             'units_data' => $units_data_new,
+            'units_arhive_data' => $units_arhive_data_new,
             'services_bill_id_array' => $services_bill_id_array,
             'units_id_array' => $units_id_array,
             'quantity_array' => $quantity_array,
             'prices_array' => $prices_array,
             'services_id_array' => $services_id_array,
             'media_path' => $media_path,
+            'logo_url' => $logo_url,
         ]);
 
         $printPdf = new PrintPdf();
@@ -802,6 +1011,11 @@ class SiteController extends Controller
             $bill_data = Bills::getBillByBillId($bill_id);
         }
 
+        $data_for_services_array = explode('-',$bill_data['bill_id']);
+
+        $data_for_services = '  '.Yii::$app->params['ukr-month'][$data_for_services_array[1]]. ' '.$data_for_services_array[0];
+
+
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
         $payers_data = Payers::getPayersFields($selected_fields);
@@ -811,30 +1025,37 @@ class SiteController extends Controller
          //   $payers_data_new[$v['id']] = $v;
        // }
 
-        $services_data = Services::getServicesList();
+        $services_data = Services::getServicesListAll();
         $services_data_new = array();
         foreach ($services_data as $k => $v) {
-            $services_data_new[$v['id']] = $v;
+            if($v['add_month_year']== 1){
+                $services_data_new[$v['id']] = $v;
+                $services_data_new[$v['id']]['name'] = $v['name'].$data_for_services;
+            }else{
+                $services_data_new[$v['id']] = $v;
+            }
         }
 
 
-        $header_data = FooterHeader::getHeaderList();
+        $header_data = FooterHeader::getHeaderListAll();
         $header_data_new = array();
         foreach ($header_data as $k => $v) {
             $header_data_new[$v['id']] = $v;
         }
 
-        $footer_data = FooterHeader::getFooterList();
+        $footer_data = FooterHeader::getFooterListAll();
         $footer_data_new = array();
         foreach ($footer_data as $k => $v) {
             $footer_data_new[$v['id']] = $v;
         }
 
-        $units_data = Units::getUnitsList();
+        $units_data = Units::getUnitsListAll();
         $units_data_new = array();
         foreach ($units_data as $k => $v) {
             $units_data_new[$v['id']] = $v;
         }
+
+
 
         $services_bill_id_array = explode(';', $bill_data['services_bill_id']);
         $units_id_array = explode(';', $bill_data['units_id']);
@@ -884,6 +1105,10 @@ class SiteController extends Controller
             $bill_data = Bills::getBillByBillId($bill_id);
         }
 
+        $data_for_services_array = explode('-',$bill_data['bill_id']);
+
+        $data_for_services = '  '.Yii::$app->params['ukr-month'][$data_for_services_array[1]]. ' '.$data_for_services_array[0];
+
 
         $selected_fields = array('id', 'name', 'contact_person', 'phone');
         $payers_data = Payers::getPayersFields($selected_fields);
@@ -893,26 +1118,31 @@ class SiteController extends Controller
         //   $payers_data_new[$v['id']] = $v;
         // }
 
-        $services_data = Services::getServicesList();
+        $services_data = Services::getServicesListAll();
         $services_data_new = array();
         foreach ($services_data as $k => $v) {
-            $services_data_new[$v['id']] = $v;
+            if($v['add_month_year']== 1){
+                $services_data_new[$v['id']] = $v;
+                $services_data_new[$v['id']]['name'] = $v['name'].$data_for_services;
+            }else{
+                $services_data_new[$v['id']] = $v;
+            }
         }
 
 
-        $header_data = FooterHeader::getHeaderList();
+        $header_data = FooterHeader::getHeaderListAll();
         $header_data_new = array();
         foreach ($header_data as $k => $v) {
             $header_data_new[$v['id']] = $v;
         }
 
-        $footer_data = FooterHeader::getFooterList();
+        $footer_data = FooterHeader::getFooterListAll();
         $footer_data_new = array();
         foreach ($footer_data as $k => $v) {
             $footer_data_new[$v['id']] = $v;
         }
 
-        $units_data = Units::getUnitsList();
+        $units_data = Units::getUnitsListAll();
         $units_data_new = array();
         foreach ($units_data as $k => $v) {
             $units_data_new[$v['id']] = $v;

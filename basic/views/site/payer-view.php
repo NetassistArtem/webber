@@ -15,12 +15,12 @@ $this->title = 'Страница клиента';
             <p>Клиен - <?= $payer->name ?></p>
         </div>
         <div class="panel-body">
-            <?php Pjax::begin(['id' => 'payers_add']); ?>
+            <?php echo '';//Pjax::begin(['id' => 'payers_add']); ?>
 
 
 
 
-            <?php if (!$payer->delete == 1): ?>
+            <?php if ($payer->delete == -1): ?>
                 <div class="margin_bottom">
 
                     <a href="/payers/edit-payer?id=<?= $payer->id ?>" class="btn btn-primary">Редактировать</a>
@@ -103,7 +103,7 @@ $this->title = 'Страница клиента';
             </div>
 
 
-            <?php Pjax::end(); ?>
+            <?php echo '';//Pjax::end(); ?>
         </div>
     </div>
 

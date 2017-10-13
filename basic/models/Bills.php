@@ -72,6 +72,7 @@ class Bills extends  ActiveRecord
         $bill_id = self::createBillId();
 
         $date_timestamp = self::toTimestamp($data_array['date']);
+        $logo = Logo::getActiveLogo();
 
         $bill = new Bills();
 
@@ -82,6 +83,7 @@ class Bills extends  ActiveRecord
         $bill->info = $data_array['info'];
         $bill->header_id = $data_array['header_id'];
         $bill->footer_id = $data_array['footer_id'];
+        $bill->logo_id = !empty($logo) ? $logo[0]['id'] : null ;
       //  $bill->services_id = $data_array['services_id'];
       //  $bill->units_id = $data_array['units_id'];
       //  $bill->quantity = $data_array['quantity'];
@@ -182,6 +184,11 @@ class Bills extends  ActiveRecord
         self::editService($data_array);
         return true;
 
+    }
+
+    public static function findBillsWithLogo($logo_id)//поиск всех счетов в которых встроен логотип с $logo_id
+    {
+      return  self::find()->asArray()->where(['logo_id' => $logo_id])->all();
     }
 
 

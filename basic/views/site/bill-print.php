@@ -41,8 +41,26 @@ use app\components\debugger\Debugger;
 <body>
 <?php $this->beginBody() ?>
 <div class="container">
-    <div id="header_main" >
-        <?= $bill_data->header_id ? $header_data[$bill_data->header_id]['text'] : '<div class="bill-view-header-no" ><p>Нет хедера</p></div>'; ?>
+    <div style="padding-top: 30px" id="header_main" >
+        <div class="row" >
+            <div style="width: 50%;display: inline-block" class="col-lg-6 col-md-6 col-sm-6 logo_position" >
+                <img src="<?=$logo_url ?>" alt="">
+            </div>
+            <div style="width: 50%;display: inline-block" class="col-lg-6 col-md-6 col-sm-6" >
+
+                <?php if ($bill_data->header_id): ?>
+                    <?= isset($header_data[$bill_data->header_id]['text']) ? $header_data[$bill_data->header_id]['text'] : $header_arhive_data[$bill_data->header_id]['text']  ?>
+                <?php else: ?>
+                    <div class="bill-view-header-no" ><p>Нет хедера</p></div>
+                <?php endif; ?>
+
+            </div>
+        </div>
+
+
+
+
+
 
     </div>
     <div class="bill_number" style="margin: 0; padding-bottom: 5px;padding-top: -80px;" ><p style="margin: 0">Рахунок № <?= $bill_data->bill_id ?></p></div>
@@ -52,30 +70,49 @@ use app\components\debugger\Debugger;
             <tr style="margin: 0; padding: 0;" >
                 <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><p style="margin: 0; padding: 0;" >Платник:</p></td>
-                <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" >
-                    <p style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><?= $bill_data->payer_id ? $payers_data[$bill_data->payer_id]['name'] : '<div class="bill-view-header-no" ><p>Нет платильщик</p></div>'; ?></p>
-                </td>
+
+
+                <?php if ($bill_data->payer_id): ?>
+                    <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><p style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><?= isset($payers_data[$bill_data->payer_id]['name']) ? $payers_data[$bill_data->payer_id]['name'] : $payers_arhive_data[$bill_data->payer_id]['name'] ?></p></td>
+                <?php else: ?>
+                    <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><div class="bill-view-header-no" ><p>Нет платильщик</p></div></td>
+                <?php endif; ?>
+
             </tr>
             <tr style="margin: 0; padding: 0;">
                 <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" ><p style="margin: 0; padding: 0;" >Особа для контактів:</p></td>
                 <td style="margin: 0; padding-bottom: 0;padding-top: 0;line-height: 1;" >
-                    <?php if($bill_data->payer_id): ?>
-                        <p style="margin: 0; padding: 0;" ><?= $payers_data[$bill_data->payer_id]['contact_person'] ? $payers_data[$bill_data->payer_id]['contact_person'] : '<span></span>'; ?></p>
+
+
+                    <?php if ($bill_data->payer_id):
+                        if (isset($payers_data[$bill_data->payer_id])): ?>
+                            <p><?= $payers_data[$bill_data->payer_id]['contact_person'] ? $payers_data[$bill_data->payer_id]['contact_person'] : '<span></span>'; ?></p>
+                        <?php else: ?>
+                            <p><?= $payers_arhive_data[$bill_data->payer_id]['contact_person'] ? $payers_arhive_data[$bill_data->payer_id]['contact_person'] : '<span></span>'; ?></p>
+                        <?php endif; ?>
+
                     <?php else: ?>
-                        <span ></span>
+                        <span></span>
                     <?php endif; ?>
+
                 </td>
             </tr  >
             <tr style="margin: 0; padding-bottom: 10px;padding-top: 0;line-height: 1;" >
                 <td style="margin: 0; padding-bottom: 5px;padding-top: 0; line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 5px;padding-top: 0; line-height: 1;" ><p style="margin: 0; padding: 0;" >Телефон/факс:</p></td>
                 <td style="margin: 0; padding-bottom: 5px;padding-top: 0; line-height: 1;" >
-                    <?php if($bill_data->payer_id): ?>
-                        <p style="margin: 0; padding: 0;" ><?= $payers_data[$bill_data->payer_id]['phone'] ? $payers_data[$bill_data->payer_id]['phone'] : '<span></span>'; ?></p>
+
+                    <?php if ($bill_data->payer_id):
+                        if (isset($payers_data[$bill_data->payer_id])): ?>
+                            <p><?= $payers_data[$bill_data->payer_id]['phone'] ? $payers_data[$bill_data->payer_id]['phone'] : '<span></span>'; ?></p>
+                        <?php else: ?>
+                            <p><?= $payers_arhive_data[$bill_data->payer_id]['phone'] ? $payers_arhive_data[$bill_data->payer_id]['phone'] : '<span></span>'; ?></p>
+                        <?php endif; ?>
                     <?php else: ?>
                         <span></span>
                     <?php endif; ?>
+
                 </td>
             </tr>
         </table>
@@ -105,9 +142,22 @@ use app\components\debugger\Debugger;
                 <tr>
                     <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $v ?></td>
 
-                    <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+
+
+                    <?php if($services_id_array[0]): ?>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= isset($services_data[$services_id_array[$k]]['name']) ? $services_data[$services_id_array[$k]]['name'] : $services_arhive_data[$services_id_array[$k]]['name'] ?></td>
+                    <?php else: ?>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger" >Нет данных</span></td>
+                    <?php endif; ?>
+
                     <?php if ($services_id_array[0]): ?>
-                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+
+                        <?php if(isset($units_data[$units_id_array[$k]]['name'])): ?>
+                            <td><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <?php else: ?>
+                            <td><?= isset($units_data[$units_id_array[$k]]['name']) ? $units_data[$units_id_array[$k]]['name'] : $units_arhive_data[$units_id_array[$k]]['name'] ?></td>
+                        <?php endif; ?>
+
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $sum ?></td>
@@ -158,7 +208,14 @@ use app\components\debugger\Debugger;
         </table>
     </div>
     <div>
-        <?= $bill_data->footer_id ? $footer_data[$bill_data->footer_id]['text'] : '<div class="bill-view-header-no" ><p>Нет футера</p></div>'; ?>
+
+        <?php if ($bill_data->footer_id): ?>
+
+            <?= isset($footer_data[$bill_data->footer_id]['text']) ? $footer_data[$bill_data->footer_id]['text'] : $footer_arhive_data[$bill_data->footer_id]['text']  ?>
+        <?php else: ?>
+            <div class="bill-view-header-no" ><p>Нет футера</p></div>
+        <?php endif; ?>
+
     </div>
 
 <?php $this->endBody() ?>

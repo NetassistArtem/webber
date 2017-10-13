@@ -33,6 +33,13 @@ class Services extends  ActiveRecord
         return $services;
     }
 
+    public static function getServicesListAll()
+    {
+        $services = self::find()->asArray()->all();
+
+        return $services;
+    }
+
     public static function getServicesArhiveList()
     {
         $services = self::find()->where(['delete' => 1])->asArray()->all();
@@ -81,6 +88,30 @@ class Services extends  ActiveRecord
         $service->delete = -1;
         $service->save();
 
+    }
+
+    public static function addMonthYear($id)
+    {
+
+        $service = Services::findOne($id);
+        $service->add_month_year = 1;
+        $service->save();
+
+    }
+    public static function deleteMonthYear($id)
+    {
+
+        $service = Services::findOne($id);
+        $service->add_month_year = -1;
+        $service->save();
+
+    }
+
+    public static function getServicesWithMonthYearList()
+    {
+        $service = self::find()->where(['add_month_year' => 1])->asArray()->all();
+
+        return $service;
     }
 
 

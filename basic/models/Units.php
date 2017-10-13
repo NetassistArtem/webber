@@ -32,6 +32,12 @@ class Units extends  ActiveRecord
 
         return $units;
     }
+    public static function getUnitsListAll()
+    {
+        $units = self::find()->asArray()->all();
+
+        return $units;
+    }
 
     public static function getUnitsArhiveList()
     {

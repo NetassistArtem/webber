@@ -5,11 +5,12 @@ use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 
-$this->title = 'Счета';
 
+$this->title = 'Счета';
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
+
 
     <div class=" panel panel-default">
         <div class="panel-heading">

@@ -260,3 +260,50 @@ th.collapse-th-td {
     background-color: #EF9A9A;
 }
 
+.player_text{
+    display: block;
+    color: black;
+    font-size: 0.6em;
+    margin-bottom: -5px;
+}
+
+.margin-badge{
+    margin: 15px;
+}
+.badge-pill{
+    padding: 10px;
+    font-size: 1.3em;
+
+
+}
+.badge-inactive{
+opacity: 0.2;
+}
+.badge-active{
+    background-color:black;
+}
+.badge-active-font{
+    color: #aa0303;
+}
+.logo-preview {
+   text-align: center;
+}
+div.logo-preview img{
+    max-width: 40%;
+}
+.logo-load-border{
+
+}
+.img-position-list{
+    width: 30%;
+    margin-left: 30%;
+}
+.background1{
+    background-color: #f4fff5;
+}
+.logo_position{
+    text-align: center;
+}
+.logo_position img{
+    width: 50%;
+}

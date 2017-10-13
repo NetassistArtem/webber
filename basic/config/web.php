@@ -23,7 +23,8 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
+            'authTimeout' => 60*15
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -122,6 +123,26 @@ $config = [
                 [
                     'pattern' => 'settings/edit-setting',
                     'route' => 'settings/edit-setting',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'settings/edit-logo',
+                    'route' => 'settings/edit-logo',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'settings/delete-logo',
+                    'route' => 'settings/delete-logo',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'settings/change-logo',
+                    'route' => 'settings/change-logo',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'settings/delete-month-year-services',
+                    'route' => 'settings/delete-month-year-services',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
 

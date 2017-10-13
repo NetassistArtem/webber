@@ -19,7 +19,20 @@ if(!$edit){
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php if(!$edit): ?>
+    <div class="margin-badge">
+        <span ><span class="badge badge-pill" >1</span> Добавление основных данных</span>
+        <span class="glyphicon glyphicon-chevron-right" ></span>
+        <span class="badge-active-font" ><span class="badge badge-pill badge-active" >2</span> Добавление услуг</span>
+    </div>
+    <?php else:?>
+        <div class="margin-badge">
+            <span ><span class="badge badge-pill" >1</span> Редактирование основных данных</span>
+            <span class="glyphicon glyphicon-chevron-right" ></span>
+            <span class="badge-active-font" ><span class="badge badge-pill badge-active" >2</span> Редактирование услуг</span>
+        </div>
 
+    <?php endif; ?>
     <div class=" panel panel-default">
         <div class="panel-heading">
             <p>Добавление / редактирование услуг</p>
@@ -27,7 +40,7 @@ if(!$edit){
         <div class="panel-body">
             <?php Pjax::begin(['id' => 'bills_add']); ?>
 
-            <?php if ($bill_services['services'][0]): ?>
+
 
 
                 <div class="table-responsive saved-services-block">
@@ -49,6 +62,8 @@ if(!$edit){
                         </thead>
                         <tbody>
                         <?php
+                        if ($bill_services['services'][0]):
+
 
                         $all_sum = '';
                         $all_nds = '';
@@ -64,8 +79,20 @@ if(!$edit){
                             ?>
                             <tr id="service_<?= $k + 1 ?>" data-toggle="collapse"
                                 data-target="#service_tr_<?= $k + 1 ?>">
-                                <td><?= $v ? $services_data[$v] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                                <td><?= $bill_services['units'][$k] != -1 ? $units_data[$bill_services['units'][$k]] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                                <?php if($v): ?>
+                                    <td><?= isset($services_data[$v]) ? $services_data[$v] : $services_arhive_data[$v]. ' <span class="badge  badge-danger" >Услуга удалена</span>' ?></td>
+                                    <?php else: ?>
+                                    <td><span class="badge  badge-danger" >Нет данных</span></td>
+                                <?php endif; ?>
+
+
+                                <?php if($bill_services['units'][$k] != -1): ?>
+                                    <td><?= isset($units_data[$bill_services['units'][$k]]) ? $units_data[$bill_services['units'][$k]] : $units_arhive_data[$bill_services['units'][$k]]. ' <span class="badge  badge-danger" >Единица удалена</span>' ?></td>
+                                <?php else: ?>
+                                    <td><span class="badge  badge-danger" >Нет данных</span></td>
+                                <?php endif; ?>
+
+
                                 <td><?= $bill_services['prices'][$k] != -1 ? $bill_services['prices'][$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                                 <td><?= $bill_services['quantity'][$k] != -1 ? $bill_services['quantity'][$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
 
@@ -105,11 +132,11 @@ if(!$edit){
                                             <td>
                                                 <?php
                                                 $BillAddSecondForm->services_id = $v;
-                                                echo $form_bill_edit_second->field($BillAddSecondForm, 'services_id')->dropDownList($services_data, ['prompt' => 'Выберите услугу'])->label(false) ?>
+                                                echo $form_bill_edit_second->field($BillAddSecondForm, 'services_id')->dropDownList($services_id_name_select, ['prompt' => 'Выберите услугу'])->label(false) ?>
                                             </td>
                                             <td>
                                                 <?php $BillAddSecondForm->units_id = $bill_services['units'][$k];
-                                                echo $form_bill_edit_second->field($BillAddSecondForm, 'units_id')->dropDownList($units_data, ['prompt' => 'Выберите единици'])->label(false) ?>
+                                                echo $form_bill_edit_second->field($BillAddSecondForm, 'units_id')->dropDownList($units_id_name_select, ['prompt' => 'Выберите единици'])->label(false) ?>
                                             </td>
                                             <td>
                                                 <?php $p = $bill_services['prices'][$k] != -1 ? $bill_services['prices'][$k] : '';
@@ -160,13 +187,19 @@ if(!$edit){
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                            <?php else: ?>
+                            <tr>
+                                <th colspan="7" class="centre" ><span class="badge badge-warning">Нет сохраненных услуг</span></th>
+
+
+                            </tr>
+                        <?php endif; ?>
 
                         </tbody>
                     </table>
                 </div>
 
 
-            <?php endif; ?>
 
 
             <div class="row">
@@ -196,7 +229,7 @@ if(!$edit){
 
 
                 <?= Html::submitButton("Сохранить", ['class' => 'btn btn-primary', 'name' => 'save-service', 'value' => 1, 'id' => 'save-service',]) ?>
-                <?= Html::submitButton("Сохранить и добавить еще услугу", ['class' => 'btn btn-primary', 'name' => 'more-service', 'value' => 1, 'id' => 'more-service',]) ?>
+                <?= Html::submitButton("Добавить еще услугу", ['class' => 'btn btn-primary', 'name' => 'more-service', 'value' => 1, 'id' => 'more-service',]) ?>
                 <a href="/bills/bill-view?bill_id=<?= $bill_id ?>" class="btn btn-success">Перейти к сохраненному счету</a>
 
 
