@@ -64,7 +64,7 @@ $this->title = '';
 
     </div>
     <div class="bill_number"><h3>Рахунок № <?= $bill_id_small ?></h3></div>
-    <div class="bill_date"><p>від <?= Yii::$app->formatter->asDate($bill_data['date'], 'yyyy-MM-dd') ?></p></div>
+    <div class="bill_date"><p>від <?= Yii::$app->formatter->asDate($bill_data['date'], 'dd-MM-yyyy') ?></p></div>
     <div>
         <table class="table table-responsive table-no-border">
             <tr>
@@ -156,7 +156,7 @@ $this->title = '';
 
                         <td><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                         <td><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td><?= $sum ?></td>
+                        <td><?= number_format($sum, 2, '.', ''); ?></td>
                     <?php else: ?>
                         <td><span class="badge  badge-danger">Нет данных</span></td>
                         <td><span class="badge  badge-danger">Нет данных</span></td>
@@ -171,7 +171,7 @@ $this->title = '';
                 <td></td>
                 <td></td>
                 <td>Сумма:</td>
-                <td><?= $all_sum ?></td>
+                <td><?= number_format($all_sum, 2, '.', '')  ?></td>
             </tr>
             <tr class="table-no-border">
                 <td></td>
@@ -179,7 +179,7 @@ $this->title = '';
                 <td></td>
                 <td></td>
                 <td>ПДВ:</td>
-                <td><?= $all_sum / 5 ?></td>
+                <td><?= number_format(($all_sum / 5), 2, '.', ''); ?></td>
             </tr>
             <tr class="table-no-border">
                 <td></td>
@@ -187,7 +187,7 @@ $this->title = '';
                 <td></td>
                 <td></td>
                 <td>До сплати:</td>
-                <td><?= ($all_sum / 5) + $all_sum ?></td>
+                <td><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', '')  ?></td>
             </tr>
             </tbody>
         </table>

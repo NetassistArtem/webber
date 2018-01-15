@@ -70,7 +70,10 @@ class Bills extends  ActiveRecord
 
     public static function toSmallDateFormat($date)
     {
-      return  substr(str_replace('-','', $date),2);
+        $date_array = explode('-', $date);
+        $bill_n = str_pad($date_array[2], 4, '0',STR_PAD_LEFT);
+        $bill_number = substr($date_array[0], 2) . $date_array[1] . $bill_n;
+      return  $bill_number;//substr(str_replace('-','', $date),2);
     }
 
     public static function insertBill($data_array)

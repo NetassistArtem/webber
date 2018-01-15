@@ -31,11 +31,11 @@ $this->title = '';
     <div>
         <div style="display: inline-block;width: 50%;"><p class="text-left"><b>м.Київ</b></p></div>
         <div style="display: inline-block;width: 49%;"><p class="text-right">
-                <b><?= Yii::$app->formatter->asDate($last_day_month, 'yyyy-MM-dd') ?></b></p></div>
+                <b><?= Yii::$app->formatter->asDate($last_day_month, 'dd-MM-yyyy') ?></b></p></div>
     </div>
     <div>
-        <p>Ми, представники Замовника <b><?= $payers_data? $payers_data->name : ' ...... ' ?></b></p>
-        <p style="display: inline-block;">в особі </p>
+        <p style="margin-left: 38px" >Ми, представники Замовника <b><?= $payers_data? $payers_data->name : ' ...... ' ?></b></p>
+        <p style="display: inline-block; margin-left: 38px">в особі </p>
         <p style="display: inline-block;width: 50%; margin: 0; border-bottom: solid 1px black"></p>
         <p>з одного боку, та представник <?= $main_settings_data['name_firm'] ?> в особі Директора
             <?= $main_settings_data['name_dir'] ?>, з іншого боку, склали цей акт про те, що Виконавецем були проведені
@@ -54,8 +54,8 @@ $this->title = '';
 
             <tr>
 
-                <td><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '..........' ?></td>
-                <td><?= $sum ?></td>
+                <td style="width: 45%" ><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '..........' ?></td>
+                <td><?= number_format($sum, 2, '.', ''); ?> грн</td>
 
             </tr>
         <?php endforeach; ?>
@@ -66,15 +66,15 @@ $this->title = '';
 
         <tr class = "table-padding-custom">
             <td>Загальна вартість робіт (послуг) без ПДВ:</td>
-            <td><?= $all_sum ?></td>
+            <td><?= number_format($all_sum, 2, '.', ''); ?> грн</td>
         </tr>
         <tr class = "table-padding-custom" >
             <td>ПДВ 20%:</td>
-            <td><?= $all_sum / 5 ?></td>
+            <td><?= number_format(($all_sum / 5), 2, '.', ''); ?> грн</td>
         </tr>
         <tr class = "table-padding-custom" >
             <td>Загальна вартість робіт (послуг) з ПДВ:</td>
-            <td><?= ($all_sum / 5) + $all_sum ?></td>
+            <td><?= number_format((($all_sum / 5) + $all_sum), 2, '.', ''); ?> грн</td>
         </tr>
         <tr>
             <td></td>
@@ -88,8 +88,11 @@ $this->title = '';
             <td></td>
             <td></td>
         </tr>
+    </table>
+
+        <table class="table table-sm table-responsive table-no-border " >
         <tr class = "table-padding-custom" >
-            <td>Від Виконавця</td>
+            <td style="width: 70%" >Від Виконавця</td>
             <td>Від Замовника</td>
         </tr>
         <tr class = "table-padding-custom-bottom" >
@@ -101,8 +104,8 @@ $this->title = '';
             <td><p style="display: inline-block;width: 60%; margin: 0; border-bottom: solid 1px black"></p>/........................../</td>
         </tr>
         <tr class = "table-padding-custom" >
-            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'yyyy-MM-dd') ?></b></td>
-            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'yyyy-MM-dd') ?></b></td>
+            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'dd-MM-yyyy') ?></b></td>
+            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'dd-MM-yyyy') ?></b></td>
         </tr>
         <tr class = "table-padding-custom" >
             <td><?= $main_settings_data['name_firm'] ?></td>
@@ -137,11 +140,11 @@ $this->title = '';
     <div>
         <div style="display: inline-block;width: 50%;"><p class="text-left"><b>м.Київ</b></p></div>
         <div style="display: inline-block;width: 49%;"><p class="text-right">
-                <b><?= Yii::$app->formatter->asDate($last_day_month, 'yyyy-MM-dd') ?></b></p></div>
+                <b><?= Yii::$app->formatter->asDate($last_day_month, 'dd-MM-yyyy') ?></b></p></div>
     </div>
     <div>
-        <p>Ми, представники Замовника <b><?= $payers_data? $payers_data->name : ' ...... ' ?></b></p>
-        <p style="display: inline-block;">в особі </p>
+        <p style="margin-left: 38px" >Ми, представники Замовника <b><?= $payers_data? $payers_data->name : ' ...... ' ?></b></p>
+        <p style="display: inline-block; margin-left: 38px">в особі </p>
         <p style="display: inline-block;width: 50%; margin: 0; border-bottom: solid 1px black"></p>
         <p>з одного боку, та представник <?= $main_settings_data['name_firm'] ?> в особі Директора
             <?= $main_settings_data['name_dir'] ?>, з іншого боку, склали цей акт про те, що Виконавецем були проведені
@@ -160,8 +163,8 @@ $this->title = '';
 
             <tr>
 
-                <td><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '..........' ?></td>
-                <td><?= $sum ?></td>
+                <td style="width: 45%" ><?= $services_id_array[0] ? $services_data[$services_id_array[$k]]['name'] : '..........' ?></td>
+                <td><?=  number_format($sum, 2, '.', ''); ?> грн</td>
 
             </tr>
         <?php endforeach; ?>
@@ -172,15 +175,15 @@ $this->title = '';
 
         <tr class = "table-padding-custom">
             <td>Загальна вартість робіт (послуг) без ПДВ:</td>
-            <td><?= $all_sum ?></td>
+            <td><?= number_format($all_sum, 2, '.', ''); ?> грн</td>
         </tr>
         <tr class = "table-padding-custom" >
             <td>ПДВ 20%:</td>
-            <td><?= $all_sum / 5 ?></td>
+            <td><?= number_format(($all_sum / 5), 2, '.', ''); ?> грн</td>
         </tr>
         <tr class = "table-padding-custom" >
             <td>Загальна вартість робіт (послуг) з ПДВ:</td>
-            <td><?= ($all_sum / 5) + $all_sum ?></td>
+            <td><?= number_format((($all_sum / 5) + $all_sum), 2, '.', ''); ?> грн</td>
         </tr>
         <tr>
             <td></td>
@@ -194,8 +197,10 @@ $this->title = '';
             <td></td>
             <td></td>
         </tr>
+    </table>
+    <table class="table table-sm table-responsive table-no-border " >
         <tr class = "table-padding-custom" >
-            <td>Від Виконавця</td>
+            <td style="width: 70%" >Від Виконавця</td>
             <td>Від Замовника</td>
         </tr>
         <tr class = "table-padding-custom-bottom" >
@@ -207,8 +212,8 @@ $this->title = '';
             <td><p style="display: inline-block;width: 60%; margin: 0; border-bottom: solid 1px black"></p>/........................../</td>
         </tr>
         <tr class = "table-padding-custom" >
-            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'yyyy-MM-dd') ?></b></td>
-            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'yyyy-MM-dd') ?></b></td>
+            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'dd-MM-yyyy') ?></b></td>
+            <td><b><?= Yii::$app->formatter->asDate($last_day_month, 'dd-MM-yyyy') ?></b></td>
         </tr>
         <tr class = "table-padding-custom" >
             <td><?= $main_settings_data['name_firm'] ?></td>

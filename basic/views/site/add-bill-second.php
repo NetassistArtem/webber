@@ -71,7 +71,7 @@ if(!$edit){
 
                         foreach ($bill_services['services'] as $k => $v): ?>
                             <?php $sum = ($bill_services['quantity'][$k] == -1 ? 0 : $bill_services['quantity'][$k]) * ($bill_services['prices'][$k] == -1 ? 0 : $bill_services['prices'][$k]);
-                            $nds = $sum / 5;
+                            $nds =  $sum / 5;
                             $price_sum_nds = $sum + $nds;
                             $all_sum += $sum;
                             $all_nds += $nds;
@@ -96,9 +96,9 @@ if(!$edit){
                                 <td><?= $bill_services['prices'][$k] != -1 ? $bill_services['prices'][$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                                 <td><?= $bill_services['quantity'][$k] != -1 ? $bill_services['quantity'][$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
 
-                                <td class="collapse-th-td"><?= $sum ?></td>
-                                <td class="collapse-th-td"><?= $nds ?></td>
-                                <td class="collapse-th-td"><?= $price_sum_nds ?></td>
+                                <td class="collapse-th-td"><?= number_format($sum, 2, '.', ''); ?></td>
+                                <td class="collapse-th-td"><?= number_format($nds, 2, '.', ''); ?></td>
+                                <td class="collapse-th-td"><?= number_format($price_sum_nds, 2, '.', ''); ?></td>
                             </tr>
 
                             <tr id="service_change_<?= $k + 1 ?>" class="collapse">
@@ -242,15 +242,15 @@ if(!$edit){
                     <tbody>
                     <tr>
                         <td>Сумма</td>
-                        <td><?= $all_sum ?></td>
+                        <td><?= number_format($all_sum, 2, '.', ''); ?></td>
                     </tr>
                     <tr>
                         <td>НДС</td>
-                        <td><?= $all_nds ?></td>
+                        <td><?= number_format($all_nds, 2, '.', ''); ?></td>
                     </tr>
                     <tr>
                         <td>К оплате</td>
-                        <td><?= $all_price_sum_nds ?></td>
+                        <td><?= number_format($all_price_sum_nds, 2, '.', ''); ?></td>
                     </tr>
                     </tbody>
                 </table>

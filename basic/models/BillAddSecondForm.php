@@ -38,8 +38,8 @@ class BillAddSecondForm extends Model
 
             $service_id = $this->services_id ? $this->services_id : -1;
             $units_id = $this->units_id ? $this->units_id : -1;
-            $quantity = $this->quantity ? $this->quantity : -1;
-            $prices = $this->prices ? $this->prices : -1;
+            $quantity = $this->quantity ?  $this->quantity  : -1;
+            $prices = $this->prices ? number_format($this->prices, 2, '.', '')  : -1;
 
             $data_array = array(
 
@@ -139,7 +139,7 @@ class BillAddSecondForm extends Model
                     $service_id = $this->services_id ? $this->services_id : -1;
                     $units_id = $this->units_id ? $this->units_id : -1;
                     $quantity = $this->quantity ? $this->quantity : -1;
-                    $prices = $this->prices ? $this->prices : -1;
+                    $prices = $this->prices ? number_format($this->prices, 2, '.', '') : -1;
 
 
                     $services_data_new['services_bill_id'] .= ';' . $v;

@@ -39,7 +39,7 @@ $this->title = 'Новый счет';
 
 
 
-                <?= $form_bill_add->field($BillAddMainForm, 'date')->input('date',['value' => Yii::$app->formatter->asDate('now', 'yyyy-MM-dd')])->label('Дата') ?>
+                <?= $form_bill_add->field($BillAddMainForm, 'date')->input('date',['value' => Yii::$app->formatter->asDate('now', 'dd-MM-yyyy')])->label('Дата') ?>
 
 
             <?='';//$form_bill_add->field($BillAddMainForm, 'payer_id')->dropDownList($payers_id_name, ['prompt' => 'Выберите клиента'])->label('Клиент') ?>

@@ -64,7 +64,7 @@ use app\components\debugger\Debugger;
 
     </div>
     <div class="bill_number" style="margin: 0; padding-bottom: 5px;padding-top: -80px;" ><p style="margin: 0">Рахунок № <?= $bill_id_small ?></p></div>
-    <div class="bill_date" style="margin: 0; padding-bottom: 5px;padding-top: -40px;"><p>від <?= Yii::$app->formatter->asDate($bill_data->date, 'yyyy-MM-dd') ?></p></div>
+    <div class="bill_date" style="margin: 0; padding-bottom: 5px;padding-top: -40px;"><p>від <?= Yii::$app->formatter->asDate($bill_data->date, 'dd-MM-yyyy') ?></p></div>
     <div>
         <table class="table table-sm table-no-border table-1" >
             <tr style="margin: 0; padding: 0;" >
@@ -160,7 +160,7 @@ use app\components\debugger\Debugger;
 
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $sum ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= number_format($sum, 2, '.', ''); ?></td>
                     <?php else: ?>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
@@ -175,7 +175,7 @@ use app\components\debugger\Debugger;
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" >Сумма:</td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $all_sum ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= number_format($all_sum, 2, '.', ''); ?></td>
             </tr>
             <tr class="table-no-border">
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
@@ -183,7 +183,7 @@ use app\components\debugger\Debugger;
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" >ПДВ:</td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $all_sum / 5 ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= number_format(($all_sum / 5), 2, '.', ''); ?></td>
             </tr>
             <tr class="table-no-border">
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
@@ -191,7 +191,7 @@ use app\components\debugger\Debugger;
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" >До сплати:</td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ><?= ($all_sum / 5) + $all_sum ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', ''); ?></td>
             </tr>
             </tbody>
         </table>

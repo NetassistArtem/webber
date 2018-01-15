@@ -33,7 +33,7 @@ $this->title = 'Редактирование акта №'.($act_data['act_id']?
 
 
 
-            <?= $form_act_edit->field($ActEditForm, 'date')->input('date',['value' => $act_data['date']? Yii::$app->formatter->asDate($act_data['date'], 'yyyy-MM-dd'): ''])->label('Дата') ?>
+            <?= $form_act_edit->field($ActEditForm, 'date')->input('date',['value' => $act_data['date']? Yii::$app->formatter->asDate($act_data['date'], 'dd-MM-yyyy'): ''])->label('Дата') ?>
             <?= $form_act_edit->field($ActEditForm, 'act_id')->textInput(['value' => $act_data['act_id']] )->label('Номер акта') ?>
             <?= $form_act_edit->field($ActEditForm, 'bill_id')->hiddenInput(['value' => $act_data['bill_id']])->label(false);
             ?>
