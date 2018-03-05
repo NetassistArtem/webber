@@ -104,6 +104,7 @@ class Payers extends  ActiveRecord
 
         $payer = new Payers();
         $payer->name = $data_array['name'];
+        $payer->comment = $data_array['comment'];
         $payer->contact_person = $data_array['contact_person'];
         $payer->phone = $data_array['phone'];
         $payer->person_id = $data_array['person_id'];
@@ -132,6 +133,7 @@ class Payers extends  ActiveRecord
 
 
         $payer->name = $data_array['name'];
+        $payer->comment = $data_array['comment'];
         $payer->contact_person = $data_array['contact_person'];
         $payer->phone = $data_array['phone'];
         $payer->person_id = $data_array['person_id'];

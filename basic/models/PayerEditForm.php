@@ -20,6 +20,7 @@ class PayerEditForm extends Model
     public $name;
     public $id;
     public $contact_person;
+    public $comment;
     public $phone;
     public $person_id;
     public $certificat_pdv_id;
@@ -37,6 +38,7 @@ class PayerEditForm extends Model
             [['name'], 'required'],
             [['name',
                 'contact_person',
+                'comment',
                 'phone',
                 'person_id',
                 'certificat_pdv_id',
@@ -57,6 +59,7 @@ class PayerEditForm extends Model
             $data_array = array(
                 'id' => Yii::$app->request->post('PayerEditForm')['id'],
                 'name' => $this->name,
+                'comment' => $this->comment,
                 'contact_person' => $this->contact_person,
                 'phone' => $this->phone,
                 'person_id' => $this->person_id,

@@ -36,6 +36,7 @@ $this->title = 'Клиенты';
 
 
                 <?= $form_payer_add->field($PayerAddForm, 'name')->textInput()->label('Имя клиента') ?>
+                <?= $form_payer_add->field($PayerAddForm, 'comment')->label('Комментарий')->textInput() ?>
                 <?= $form_payer_add->field($PayerAddForm, 'contact_person')->textInput()->label('Контактное лицо') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'phone')->textInput()->label('Телефоны') ?>
                 <?= $form_payer_add->field($PayerAddForm, 'person_id')->label('ИП №') ?>
@@ -70,6 +71,7 @@ $this->title = 'Клиенты';
                     <tr>
                         <th>№</th>
                         <th>Имя клиента</th>
+                        <th>Комментарий</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,6 +80,7 @@ $this->title = 'Клиенты';
                         <tr data-toggle="collapse" data-target="#payer_tr_<?= $k+1 ?>">
                             <td><?= $k+1 ?></td>
                             <td><?= $v['name'] ?></td>
+                            <td><?= $v['comment'] ?></td>
                         </tr>
 
                         <tr id="payer_tr_<?= $k+1 ?>" class="collapse" >

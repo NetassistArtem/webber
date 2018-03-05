@@ -13,6 +13,7 @@ use app\components\debugger\Debugger;
 class PayerAddForm extends Model
 {
     public $name;
+    public $comment;
     public $contact_person;
     public $phone;
     public $person_id;
@@ -34,6 +35,7 @@ class PayerAddForm extends Model
             [['name'], 'required'],
             [['name',
                 'contact_person',
+                'comment',
                 'phone',
                 'person_id',
                 'certificat_pdv_id',
@@ -55,6 +57,7 @@ class PayerAddForm extends Model
 
                 'name' => $this->name,
                 'contact_person' => $this->contact_person,
+                'comment' => $this->comment,
                 'phone' => $this->phone,
                 'person_id' => $this->person_id,
                 'certificat_pdv_id' => $this->certificat_pdv_id,

@@ -44,7 +44,7 @@ use app\components\debugger\Debugger;
     <div style="padding-top: 30px" id="header_main" >
         <div class="row" >
             <div style="width: 50%;display: inline-block" class="col-lg-6 col-md-6 col-sm-6 logo_position" >
-                <img src="<?=$logo_url ?>" alt="">
+                <img src="<?= $logo_url ?>" alt="">
             </div>
             <div style="width: 50%;display: inline-block" class="col-lg-6 col-md-6 col-sm-6" >
 
@@ -126,8 +126,8 @@ use app\components\debugger\Debugger;
                 <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Найменування</th>
                 <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Од.вим.</th>
                 <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Кільк.</th>
-                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Ціна,грв.</th>
-                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Сумма, грв.</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Ціна,грн.</th>
+                <th style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;">Сума, грн.</th>
             </tr>
             </thead>
             <tbody>
@@ -153,14 +153,14 @@ use app\components\debugger\Debugger;
                     <?php if ($services_id_array[0]): ?>
 
                         <?php if(isset($units_data[$units_id_array[$k]]['name'])): ?>
-                            <td><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                            <td style="text-align: center"  ><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                         <?php else: ?>
-                            <td><?= isset($units_data[$units_id_array[$k]]['name']) ? $units_data[$units_id_array[$k]]['name'] : $units_arhive_data[$units_id_array[$k]]['name'] ?></td>
+                            <td style="text-align: center"  ><?= isset($units_data[$units_id_array[$k]]['name']) ? $units_data[$units_id_array[$k]]['name'] : $units_arhive_data[$units_id_array[$k]]['name'] ?></td>
                         <?php endif; ?>
 
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= number_format($sum, 2, '.', ''); ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;text-align: center"" ><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;text-align: right"" ><?= number_format($sum, 2, '.', ''); ?></td>
                     <?php else: ?>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
                         <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><span class="badge  badge-danger">Нет данных</span></td>
@@ -174,24 +174,24 @@ use app\components\debugger\Debugger;
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" >Сумма:</td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= number_format($all_sum, 2, '.', ''); ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1; text-align: right" >Сума (без ПДВ):</td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1; text-align: right"" ><?= number_format($all_sum, 2, '.', ''); ?></td>
             </tr>
             <tr class="table-no-border">
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ></td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" >ПДВ:</td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1;" ><?= number_format(($all_sum / 5), 2, '.', ''); ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1; text-align: right"" >ПДВ:</td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 2px;line-height: 1; text-align: right"" ><?= number_format(($all_sum / 5), 2, '.', ''); ?></td>
             </tr>
             <tr class="table-no-border">
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ></td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" >До сплати:</td>
-                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1;" ><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', ''); ?></td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1; text-align: right; font-size: 1.2em; font-weight: bold;"" >До сплати:</td>
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1; text-align: right; font-size: 1.2em; font-weight: bold;"" ><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', ''); ?></td>
             </tr>
             </tbody>
         </table>
@@ -199,8 +199,12 @@ use app\components\debugger\Debugger;
     <div>
         <table class="table table-responsive table-no-border">
             <tr>
+                <td style="padding-left: 0;" >До сплати, прописом:</td>
+                <td> <?=$sum_writer->num2text_ua( number_format((($all_sum / 5) + $all_sum), 2, '.', '') );  ?></td>
+            </tr>
+            <tr>
 
-                <td><p>Додаткова інформація:</p></td>
+                <td style="padding-left: 0;" ><p>Додаткова інформація:</p></td>
                 <td>
                     <p><?= $bill_data->info ? $bill_data->info : '<span></span>'; ?></p>
                 </td>

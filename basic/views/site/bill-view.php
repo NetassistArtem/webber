@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\components\debugger\Debugger;
 use yii\widgets\Pjax;
+use app\components\Sum\Sum;
 
 $this->title = '';
 
@@ -113,15 +114,15 @@ $this->title = '';
     </div>
     <div>
 
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover table-bill">
             <thead>
             <tr>
                 <th>№</th>
                 <th>Найменування</th>
                 <th>Од.вим.</th>
                 <th>Кільк.</th>
-                <th>Ціна,грв.</th>
-                <th>Сумма, грв.</th>
+                <th>Ціна,грн.</th>
+                <th >Сума, грн.</th>
             </tr>
             </thead>
             <tbody>
@@ -149,14 +150,14 @@ $this->title = '';
                     <?php if ($services_id_array[0]): ?>
 
                         <?php if (isset($units_data[$units_id_array[$k]]['name'])): ?>
-                            <td><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                            <td class="text-center" ><?= $units_data[$units_id_array[$k]]['name'] != -1 ? $units_data[$units_id_array[$k]]['name'] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
                         <?php else: ?>
-                            <td><?= isset($units_data[$units_id_array[$k]]['name']) ? $units_data[$units_id_array[$k]]['name'] : $units_arhive_data[$units_id_array[$k]]['name'] . ' <span class="badge  badge-danger" >Единица удалена</span>' ?></td>
+                            <td class="text-center"><?= isset($units_data[$units_id_array[$k]]['name']) ? $units_data[$units_id_array[$k]]['name'] : $units_arhive_data[$units_id_array[$k]]['name'] . ' <span class="badge  badge-danger" >Единица удалена</span>' ?></td>
                         <?php endif; ?>
 
-                        <td><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
-                        <td><?= number_format($sum, 2, '.', ''); ?></td>
+                        <td  ><?= $quantity_array[$k] != -1 ? $quantity_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <td class="text-center"><?= $prices_array[$k] != -1 ? $prices_array[$k] : '<span class="badge  badge-danger" >Нет данных</span>' ?></td>
+                        <td class="text-right" ><?= number_format($sum, 2, '.', ''); ?></td>
                     <?php else: ?>
                         <td><span class="badge  badge-danger">Нет данных</span></td>
                         <td><span class="badge  badge-danger">Нет данных</span></td>
@@ -170,24 +171,24 @@ $this->title = '';
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Сумма:</td>
-                <td><?= number_format($all_sum, 2, '.', '')  ?></td>
+                <td class="text-right" >Сума (без ПДВ):</td>
+                <td class="text-right" ><?= number_format($all_sum, 2, '.', '')  ?></td>
             </tr>
             <tr class="table-no-border">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>ПДВ:</td>
-                <td><?= number_format(($all_sum / 5), 2, '.', ''); ?></td>
+                <td class="text-right" >ПДВ:</td>
+                <td class="text-right" ><?= number_format(($all_sum / 5), 2, '.', ''); ?></td>
             </tr>
             <tr class="table-no-border">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>До сплати:</td>
-                <td><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', '')  ?></td>
+                <td class="text-right font-size1" >До сплати:</td>
+                <td class="text-right font-size1" ><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', '')  ?></td>
             </tr>
             </tbody>
         </table>
@@ -195,8 +196,12 @@ $this->title = '';
     <div>
         <table class="table table-responsive table-no-border">
             <tr>
+                <td class="left-padding-non" >До сплати, прописом:</td>
+                <td> <?=$sum_writer->num2text_ua( number_format((($all_sum / 5) + $all_sum), 2, '.', '') );  ?></td>
+            </tr>
+            <tr >
 
-                <td><p>Додаткова інформація:</p></td>
+                <td class="left-padding-non"><p>Додаткова інформація:</p></td>
                 <td>
                     <p><?= $bill_data['info'] ? $bill_data['info'] : '<span class="badge badge-warning" >Нет информации</span>'; ?></p>
                 </td>

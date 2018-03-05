@@ -22,7 +22,7 @@ $this->title = 'Страница клиента';
 
             <?php if ($payer->delete == -1): ?>
                 <div class="margin_bottom">
-
+                    <a href="/payers" class="btn btn-success">Вернуться к списку клиентов</a>
                     <a href="/payers/edit-payer?id=<?= $payer->id ?>" class="btn btn-primary">Редактировать</a>
                     <a href="/payers/delete-payer?id=<?= $payer->id ?>"
                        onclick="return confirm('Вы уверены что хотите удалить <?= $payer->name ?>')"
@@ -51,6 +51,10 @@ $this->title = 'Страница клиента';
                     <tr>
                         <td>Имя клиента</td>
                         <td><?= $payer->name ?></td>
+                    </tr>
+                    <tr>
+                        <td>Комментарий</td>
+                        <td><?= $payer->comment ?></td>
                     </tr>
                     <tr>
                         <td>Контактное лицо</td>

@@ -42,6 +42,7 @@ $this->title = 'Редактирование клиента';
 
             <?= $form_payer_edit->field($PayerEditForm, 'id')->hiddenInput(['value' => $payer->id])->label(false) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'name')->label('Имя клиента')->textInput(['value' => $payer->name]) ?>
+                <?= $form_payer_edit->field($PayerEditForm, 'comment')->label('Комментарий')->textInput(['value' => $payer->comment]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'contact_person')->label('Контактное лицо')->textInput(['value' => $payer->contact_person]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'phone')->label('Телефоны')->textInput(['value' => $payer->phone]) ?>
                 <?= $form_payer_edit->field($PayerEditForm, 'person_id')->label('ИП №')->textInput(['value' => $payer->person_id]) ?>

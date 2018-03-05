@@ -307,3 +307,17 @@ div.logo-preview img{
 .logo_position img{
     width: 50%;
 }
+
+table tbody tr td.left-padding-non{
+    padding-left: 0;
+}
+.table-bill thead tr th, .table-bill tbody tr td.text-center{
+    text-align: center;
+}
+.table-bill tbody tr td.text-right{
+    text-align: right;
+}
+.font-size1{
+    font-size: 1.2em;
+    font-weight: bold;
+}

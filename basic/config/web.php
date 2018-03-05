@@ -35,6 +35,9 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -273,6 +276,7 @@ $config = [
                     'route' => 'site/arhive-return-payer',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+
 
             ],
         ],

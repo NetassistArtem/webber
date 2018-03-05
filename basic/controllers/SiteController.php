@@ -29,6 +29,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\Pagination;
+use app\components\Sum\Sum;
 
 
 class SiteController extends Controller
@@ -391,6 +392,7 @@ class SiteController extends Controller
 
     public function actionBills()
     {
+
 
         Yii::$app->session->remove('bill_id');
         Yii::$app->session->remove('edit');
@@ -811,6 +813,8 @@ class SiteController extends Controller
      //   Debugger::testDie();
         $logo_url = $logo->url;
 
+        $sum_writer = new Sum();
+
 
 
 
@@ -838,6 +842,7 @@ class SiteController extends Controller
             'first_id' => $first_id,
             'logo_url' => $logo_url,
             'bill_id_small' => Bills::toSmallDateFormat($bill_data['bill_id']),
+            'sum_writer' => $sum_writer,
 
         ]);
     }
@@ -951,6 +956,8 @@ class SiteController extends Controller
 
         $logo_url = $logo->url;
 
+        $sum_writer = new Sum();
+
         $html = $this->renderPartial('bill-print', [
             'bill_data' => $bill_data,
             'payers_data' => $payers_data_new,
@@ -971,6 +978,7 @@ class SiteController extends Controller
             'media_path' => $media_path,
             'logo_url' => $logo_url,
             'bill_id_small' => Bills::toSmallDateFormat($bill_data['bill_id']),
+            'sum_writer' => $sum_writer,
         ]);
 
         $printPdf = new PrintPdf();
