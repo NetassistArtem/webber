@@ -190,22 +190,20 @@ $this->title = '';
                 <td class="text-right font-size1" >До сплати:</td>
                 <td class="text-right font-size1" ><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', '')  ?></td>
             </tr>
+            <tr class="table-no-border" >
+                <td class="text-center" colspan="6"><strong><?=$sum_writer->num2text_ua( number_format((($all_sum / 5) + $all_sum), 2, '.', ''), ' грн.' );  ?></strong></td>
+            </tr>
             </tbody>
         </table>
     </div>
     <div>
         <table class="table table-responsive table-no-border">
-            <tr>
-                <td class="left-padding-non" >До сплати, прописом:</td>
-                <td> <?=$sum_writer->num2text_ua( number_format((($all_sum / 5) + $all_sum), 2, '.', '') );  ?></td>
-            </tr>
             <tr >
 
-                <td class="left-padding-non"><p>Додаткова інформація:</p></td>
-                <td>
-                    <p><?= $bill_data['info'] ? $bill_data['info'] : '<span class="badge badge-warning" >Нет информации</span>'; ?></p>
-                </td>
+                <td class="left-padding-non"><p>Додаткова інформація: &nbsp; &nbsp;<?= $bill_data['info'] ? $bill_data['info'] : '<span class="badge badge-warning" >Нет информации</span>'; ?></p></td>
+
             </tr>
+
         </table>
     </div>
     <div>

@@ -72,6 +72,10 @@ class SettingsController extends Controller
 
         $UnitAddForm = new UnitAddForm();
         $units_data = Units::getUnitsList();
+        $units_id_name_array = [];
+        foreach($units_data as $k => $v){
+            $units_id_name_array[$v['id']] = $v['name'];
+        }
         if ($UnitAddForm->load(Yii::$app->request->post()) && $UnitAddForm->addUnit()) {
             if (!Yii::$app->request->isPjax) {
                 return $this->redirect(["/settings"]);
@@ -80,6 +84,10 @@ class SettingsController extends Controller
 
         $HeaderAddForm = new HeaderAddForm();
         $headers_data = FooterHeader::getHeaderList();
+        $headers_id_name_array = [];
+        foreach($headers_data as $k => $v){
+            $headers_id_name_array[$v['id']] = $v['name'];
+        }
         if ($HeaderAddForm->load(Yii::$app->request->post()) && $HeaderAddForm->addHeader()) {
             if (!Yii::$app->request->isPjax) {
                 return $this->redirect(["/settings"]);
@@ -88,6 +96,10 @@ class SettingsController extends Controller
 
         $FooterAddForm = new FooterAddForm();
         $footers_data = FooterHeader::getFooterList();
+        $footers_id_name_array = [];
+        foreach($footers_data as $k => $v){
+            $footers_id_name_array[$v['id']] = $v['name'];
+        }
         if ($FooterAddForm->load(Yii::$app->request->post()) && $FooterAddForm->addFooter()) {
             if (!Yii::$app->request->isPjax) {
                 return $this->redirect(["/settings"]);
@@ -108,6 +120,10 @@ class SettingsController extends Controller
        $logo_data = Logo::getActiveLogo();
 
         $settings_data = Settings::getSettingsList();
+        $settings_data_type = [];
+        foreach($settings_data as $k=> $v) {
+            $settings_data_type[$v['type']][] = $v;
+        }
 
 
 
@@ -121,12 +137,15 @@ class SettingsController extends Controller
             'UnitAddForm' => $UnitAddForm,
             'MonthYearServicesForm' => $MonthYearServicesForm,
             'units_data' => $units_data,
+            'units_id_name_array' => $units_id_name_array,
+            'headers_id_name_array' => $headers_id_name_array,
+            'footers_id_name_array' => $footers_id_name_array,
             'headers_data' => $headers_data,
             'HeaderAddForm' => $HeaderAddForm,
             'footers_data' => $footers_data,
             'FooterAddForm' => $FooterAddForm,
             'main_settings_data' => $main_settings_data,
-            'settings_data' => $settings_data,
+            'settings_data' => $settings_data_type,
             'services_id_name_select' => $services_id_name,
             'logo_data' => $logo_data,
             'services_with_monthyear_data' => $services_with_monthyear_data,
@@ -258,9 +277,31 @@ class SettingsController extends Controller
             }
         }
 
+
+        $units_data = Units::getUnitsList();
+        $units_id_value_array = [];
+        foreach($units_data as $k=>$v){
+            $units_id_value_array[$v['id']] = $v['name'];
+        }
+
+        $header_data = FooterHeader::getHeaderList();
+        $header_id_value_array = [];
+        foreach($header_data as $k=>$v){
+            $header_id_value_array[$v['id']] = $v['name'];
+        }
+
+        $footer_data = FooterHeader::getFooterList();
+        $footer_id_value_array = [];
+        foreach($footer_data as $k=>$v){
+            $footer_id_value_array[$v['id']] = $v['name'];
+        }
+
         return $this->render('edit-setting',[
             'SettingsEditForm' => $SettingsEditForm,
             'setting' => $setting,
+            'units_id_value_array' => $units_id_value_array,
+            'header_id_value_array' => $header_id_value_array,
+            'footer_id_value_array' => $footer_id_value_array,
         ]);
     }
 

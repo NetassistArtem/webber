@@ -321,3 +321,16 @@ table tbody tr td.left-padding-non{
     font-size: 1.2em;
     font-weight: bold;
 }
+.inactive-form-control{
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    color: #898989;
+}
+
+ input[type=number]#billaddsecondform-prices::-webkit-inner-spin-button,
+ input[type=number]#billaddsecondform-prices::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

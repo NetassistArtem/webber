@@ -30,6 +30,12 @@ class Settings extends  ActiveRecord
 
         return $settings;
     }
+    public static function getSettingsListType($type)
+    {
+        $settings = self::find()->where(['type' => $type])->asArray()->all();
+
+        return $settings;
+    }
 
 
 
@@ -39,6 +45,7 @@ class Settings extends  ActiveRecord
         $setting->key = $data_array['key'];
         $setting->value = $data_array['value'];
         $setting->name = $data_array['name'];
+        $setting->type = $data_array['type'];
         $setting->save();
     }
     public static function getSettingById($id)

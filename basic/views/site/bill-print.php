@@ -193,21 +193,18 @@ use app\components\debugger\Debugger;
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1; text-align: right; font-size: 1.2em; font-weight: bold;"" >До сплати:</td>
                 <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1; text-align: right; font-size: 1.2em; font-weight: bold;"" ><?=  number_format((($all_sum / 5) + $all_sum), 2, '.', ''); ?></td>
             </tr>
+            <tr class="table-no-border" >
+                <td style="margin: 0; padding-bottom: 2px;padding-top: 5px;line-height: 1; font-weight: bold;" class="text-center" colspan="6"><strong><?=$sum_writer->num2text_ua( number_format((($all_sum / 5) + $all_sum), 2, '.', ''), ' грн.' );  ?></strong></td>
+            </tr>
             </tbody>
         </table>
     </div>
     <div>
         <table class="table table-responsive table-no-border">
             <tr>
-                <td style="padding-left: 0;" >До сплати, прописом:</td>
-                <td> <?=$sum_writer->num2text_ua( number_format((($all_sum / 5) + $all_sum), 2, '.', '') );  ?></td>
-            </tr>
-            <tr>
 
-                <td style="padding-left: 0;" ><p>Додаткова інформація:</p></td>
-                <td>
-                    <p><?= $bill_data->info ? $bill_data->info : '<span></span>'; ?></p>
-                </td>
+                <td style="padding-left: 0;" ><p>Додаткова інформація:  <span style="color: white">___</span><?= $bill_data->info ? $bill_data->info : '<span></span>'; ?></p></td>
+
             </tr>
         </table>
     </div>

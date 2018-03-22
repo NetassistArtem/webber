@@ -317,20 +317,24 @@ $this->registerJsFile(
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($settings_data as $k => $v): ?>
+                    <?php
+                    if(isset($settings_data[1])):
+                    foreach ($settings_data[1] as $k => $v): ?>
 
-                        <tr data-toggle="collapse" data-target="#setting_tr_<?= $k + 1 ?>">
+                        <tr data-toggle="collapse" data-target="#setting_tr_1_<?= $k + 1 ?>">
                             <td><?= $v['name'] ?></td>
                             <td><?= $v['value'] ?></td>
                         </tr>
 
-                        <tr id="setting_tr_<?= $k + 1 ?>" class="collapse">
+                        <tr id="setting_tr_1_<?= $k + 1 ?>" class="collapse">
                             <td colspan="2">
                                 <a href="/settings/edit-setting?key=<?= $v['key'] ?>"
                                    class="btn btn-primary">Изменить</a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endforeach;
+                    endif;
+                    ?>
 
                     </tbody>
                 </table>
@@ -338,6 +342,71 @@ $this->registerJsFile(
             <?php Pjax::end(); ?>
         </div>
     </div>
+
+
+
+
+    <div class=" panel panel-default">
+        <div class="panel-heading">
+            <p>Значения по умолчанию</p>
+        </div>
+        <div class="panel-body">
+            <?php Pjax::begin(['id' => 'settings-default']); ?>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover table-border-custom">
+                    <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th>Значение</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php
+                    if(isset($settings_data[2])):
+                    foreach ($settings_data[2] as $k => $v): ?>
+
+                        <tr data-toggle="collapse" data-target="#setting_tr_2_<?= $k + 1 ?>">
+                            <td><?= $v['name'] ?></td>
+                            <?php if($v['key'] == 'default_unit'): ?>
+                                <td><?= isset($units_id_name_array[$v['value']])? $units_id_name_array[$v['value']]: '';  ?></td>
+                                <?php elseif($v['key'] == 'default_header'): ?>
+                                <td><?= isset($headers_id_name_array[$v['value']])? $headers_id_name_array[$v['value']] : '';  ?></td>
+                                <?php elseif($v['key'] == 'default_footer'): ?>
+                                <td><?= isset($footers_id_name_array[$v['value']])? $footers_id_name_array[$v['value']] : '';  ?></td>
+                                <?php else: ?>
+                                <td><?= $v['value'] ?></td>
+                            <?php endif; ?>
+
+                        </tr>
+
+                        <tr id="setting_tr_2_<?= $k + 1 ?>" class="collapse">
+                            <td colspan="2">
+                                <a href="/settings/edit-setting?key=<?= $v['key'] ?>"
+                                   class="btn btn-primary">Изменить</a>
+                            </td>
+                        </tr>
+                    <?php endforeach;
+                    endif;
+                    ?>
+
+                    </tbody>
+                </table>
+            </div>
+            <?php Pjax::end(); ?>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
 
 
     <div class=" panel panel-default">

@@ -55,8 +55,10 @@ $this->title = 'Новый счет';
 
 
             <?= $form_bill_add->field($BillAddMainForm, 'info')->textarea(['rows' => 3])->label('Дополнительная информация') ?>
-                <?= $form_bill_add->field($BillAddMainForm, 'header_id')->dropDownList($header_data, ['prompt' => 'Выберите хедер'])->label('Хедер счета') ?>
-                <?= $form_bill_add->field($BillAddMainForm, 'footer_id')->dropDownList($footer_data, ['prompt' => 'Выберите футер'])->label('Футер счета') ?>
+                <?php $BillAddMainForm->header_id = $settings_data['default_header'];
+                echo $form_bill_add->field($BillAddMainForm, 'header_id')->dropDownList($header_data, ['prompt' => 'Выберите хедер'])->label('Хедер счета') ?>
+                <?php  $BillAddMainForm->footer_id = $settings_data['default_footer'];
+                echo $form_bill_add->field($BillAddMainForm, 'footer_id')->dropDownList($footer_data, ['prompt' => 'Выберите футер'])->label('Футер счета') ?>
 
 
 

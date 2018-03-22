@@ -182,7 +182,7 @@ class Sum
         return null;
     }
 
-    public function num2text_ua($num)
+    public function num2text_ua($num, $currency = 0)
     {
 
       //  $num = trim(preg_replace('~s+~s', '', $num)); // отсекаем пробелы
@@ -196,7 +196,8 @@ class Sum
             $num_arr = explode(".", $num);
             $amount = $num_arr[0]; // переназначаем для удобства, $amount - сумма без копеек
             if (strlen($amount) <= 3) {
-                $res = implode(" ", $this->Triada($amount)) . $this->Currency($amount);
+                $cur = $currency ? $currency : $this->Currency($amount);
+                $res = implode(" ", $this->Triada($amount)) .$cur  ;
             } else {
                 $amount1 = $amount;
                 while (strlen($amount1) >= 3) {
@@ -227,8 +228,8 @@ class Sum
                 } # foreach
                 $temp_res = array_reverse($temp_res); // разворачиваем массив
 
-
-                $res = implode(" ", $temp_res) . $this->Currency($amount);
+                $cur = $currency ? $currency : $this->Currency($amount);
+                $res = implode(" ", $temp_res) . $cur;//
             }
             if (!isset($num_arr[1]) || $num_arr[1] == '') {
                 $num_arr[1] = '00';
@@ -238,7 +239,7 @@ class Sum
             $res_array[0] = $firs_upper_case;
             $res = implode(' ',$res_array);
 
-            return $res . ', ' . $num_arr[1] . ' коп.';
+            return $res . ' ' . $num_arr[1] . ' коп.';
         } # if
     }
 

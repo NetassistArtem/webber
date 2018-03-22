@@ -31,9 +31,21 @@ $this->title = 'Редактирование настроек';
                     ],
 
                 ]); ?>
+            <?php if($setting->key == 'default_unit'):
+                $SettingsEditForm->value = $setting->value;
+                echo $form_setting_edit->field($SettingsEditForm, 'value')->label('Единица измерения')->dropDownList($units_id_value_array,['prompt' => 'Выберите единицу измерения']);
+                 elseif($setting->key == 'default_header'):
+                     $SettingsEditForm->value = $setting->value;
+                     echo $form_setting_edit->field($SettingsEditForm, 'value')->label('Хедер по умолчанию')->dropDownList($header_id_value_array,['prompt' => 'Выберите хедер']);
+                 elseif($setting->key == 'default_footer'):
+                     $SettingsEditForm->value = $setting->value;
+                     echo $form_setting_edit->field($SettingsEditForm, 'value')->label('Футер по умолчанию')->dropDownList($footer_id_value_array,['prompt' => 'Выберите футер']);
+                 else:
+                echo $form_setting_edit->field($SettingsEditForm, 'value')->label('Значение')->textInput(['value' => $setting->value]);
+             endif; ?>
 
 
-                <?= $form_setting_edit->field($SettingsEditForm, 'value')->label('Единица измерения')->textInput(['value' => $setting->value]) ?>
+
                 <?= $form_setting_edit->field($SettingsEditForm, 'key')->hiddenInput(['value' => $setting->key])->label(false) ?>
 
                 <div class="form-group">

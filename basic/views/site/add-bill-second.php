@@ -8,6 +8,10 @@ $this->registerJsFile(
     'js/collapseService.js',
     ['depends' => 'app\assets\AppAsset']
 );
+$this->registerJsFile(
+    'js/insertNds.js',
+    ['depends' => 'app\assets\AppAsset']
+);
 
 if(!$edit){
     $this->title = 'Новый счет';
@@ -139,9 +143,15 @@ if(!$edit){
                                                 echo $form_bill_edit_second->field($BillAddSecondForm, 'units_id')->dropDownList($units_id_name_select, ['prompt' => 'Выберите единици'])->label(false) ?>
                                             </td>
                                             <td>
+                                                <p>Без НДС</p>
                                                 <?php $p = $bill_services['prices'][$k] != -1 ? $bill_services['prices'][$k] : '';
-                                                echo $form_bill_edit_second->field($BillAddSecondForm, 'prices')->label(false)->input('number', ['value' => $p, 'step' => '0.01']);
+                                                echo $form_bill_edit_second->field($BillAddSecondForm, 'prices')->label(false)->input('number', ['value' => $p, 'step' => '0.01', 'class'=> 'form-control insertNdsValueEdit', 'onkeyup' => 'insertNds("insertNdsValueEdit", "price-nds-edit");']);
                                                 ?>
+                                                <p>С НДС</p>
+                                                <div id="price-nds-edit" class="form-control inactive-form-control" >
+
+                                                </div>
+
                                             </td>
                                             <td>
                                                 <?php $q = $bill_services['quantity'][$k] != -1 ? $bill_services['quantity'][$k] : '';
@@ -219,10 +229,22 @@ if(!$edit){
 
                 <?php $BillAddSecondForm->services_id = '';
                 echo $form_bill_add_second->field($BillAddSecondForm, 'services_id')->dropDownList($services_data, ['prompt' => 'Выберите услугу'])->label('Услуги');
-                $BillAddSecondForm->units_id = '';
+                $BillAddSecondForm->units_id = $settings_data['default_unit'];
                 echo $form_bill_add_second->field($BillAddSecondForm, 'units_id')->dropDownList($units_data, ['prompt' => 'Выберите единици'])->label('Единици измерения') ?>
-                <?= $form_bill_add_second->field($BillAddSecondForm, 'quantity')->label('Количество')->input('number') ?>
-                <?= $form_bill_add_second->field($BillAddSecondForm, 'prices')->label('Цена')->input('number', ['step' => '0.01']) ?>
+                <?=$form_bill_add_second->field($BillAddSecondForm, 'quantity')->label('Количество')->input('number',['value' =>$settings_data['default_quantity']['value']]) ?>
+                <?= $form_bill_add_second->field($BillAddSecondForm, 'prices')->label('Цена (Без НДС)')->input('number', ['step' => '0.01', 'class'=> 'form-control insertNdsValue', 'onkeyup' => 'insertNds("insertNdsValue", "price-nds");']) ?>
+                <div class="row" >
+                    <div class="col-lg-3 col-md-3 col-sm-3 control-label" >
+                        <p>Цена с НДС</p>
+
+                    </div>
+                    <div  class="col-lg-2 col-md-2 col-sm-2 " >
+                        <div id="price-nds" class="form-control inactive-form-control" >
+
+                        </div>
+
+                    </div>
+                </div>
 
 
 

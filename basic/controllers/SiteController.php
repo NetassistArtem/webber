@@ -466,6 +466,12 @@ class SiteController extends Controller
             }
         }
 
+        $settings_d = Settings::getSettingsList();
+        $settings_data = [];
+        foreach($settings_d as $k => $v){
+            $settings_data[$v['key']] = $v;
+        }
+
 
         return $this->render('add-bill-main', [
             'BillAddMainForm' => $BillAddMainForm,
@@ -474,6 +480,7 @@ class SiteController extends Controller
             'payers_data' => $payers_data,
             'header_data' => $header_id_name,
             'footer_data' => $footer_id_name,
+            'settings_data' => $settings_data,
 
         ]);
     }
@@ -567,6 +574,12 @@ class SiteController extends Controller
            }
 
        }
+
+        $settings_d = Settings::getSettingsList();
+        $settings_data = [];
+        foreach($settings_d as $k => $v){
+            $settings_data[$v['key']] = $v;
+        }
       //  Debugger::PrintR($services_id_name_select);
 
 
@@ -583,6 +596,7 @@ class SiteController extends Controller
             'bill_services' => $bill_services,
             'edit' => $edit,
             'bill_id' => $bill_id,
+            'settings_data' => $settings_data,
 
         ]);
     }
